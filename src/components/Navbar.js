@@ -29,9 +29,10 @@ const Navbar = () => {
         <Menu.Menu position="right">
           <Menu.Item style={{padding: 0}}>
             <Button basic size="small" className="signin-btn"
-              as={Link} to="/signin"style={{marginLeft: '10px'}}>Sign in</Button>
-            <Button secondary size="small"
-            as={Link} to="/signup">Sign up</Button>
+              as={Link} to="/signin"style={{marginLeft: '10px'}}
+              onClick={() => setActiveItem('')}>Sign in</Button>
+            <Button secondary size="small" as={Link} to="/signup" 
+            onClick={() => setActiveItem('')}>Sign up</Button>
 
             <Dropdown text='(username)' pointing className='link item'>
               <Dropdown.Menu style={{marginRight: '10px'}}>
