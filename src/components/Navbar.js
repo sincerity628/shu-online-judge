@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Button, Dropdown } from 'semantic-ui-react';
+import "./components.css";
 
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState('');
@@ -8,7 +9,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <Menu>
-        <Menu.Item as={Link} to="/">SHU OJ</Menu.Item>
+        <Menu.Item as={Link} to="/"><div className="logo-text">SHU Online Judge</div></Menu.Item>
         <Menu.Item name="problem" active={ activeItem ==='problem' }
           onClick={() => setActiveItem('problem')} as={Link} to="/">题目
         </Menu.Item>
@@ -24,6 +25,32 @@ const Navbar = () => {
         <Menu.Item name="rank" active={ activeItem ==='rank' }
           onClick={() => setActiveItem('rank')} as={Link} to="/rank">排名
         </Menu.Item>
+
+        <Menu.Menu position="right">
+          <Menu.Item style={{padding: 0}}>
+            <Button basic size="small" className="signin-btn"
+              as={Link} to="/signin"style={{marginLeft: '10px'}}>Sign in</Button>
+            <Button secondary size="small"
+            as={Link} to="/signup">Sign up</Button>
+
+            <Dropdown text='(username)' pointing className='link item'>
+              <Dropdown.Menu style={{marginRight: '10px'}}>
+                <Dropdown.Header>(role)</Dropdown.Header>
+
+                <Dropdown.Item as={Link} to="/backend">后台管理</Dropdown.Item>
+                <Dropdown.Divider />
+
+                <Dropdown.Item as={Link} to="/profile">个人主页</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/submission">我的提交</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/setting">密保设置</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Header>登出</Dropdown.Header>
+                <Button size="small" className="sign-out">Sign out.</Button>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
+        </Menu.Menu>
+
       </Menu>
     </div>
   );

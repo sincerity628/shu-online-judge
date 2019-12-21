@@ -2,11 +2,14 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Signin from '../pages/authentication/Signin';
 import Signup from '../pages/authentication/Signup';
+import Backend from '../pages/backend/Backend';
 import Groups from '../pages/group/Groups';
 import Home from '../pages/home/Home';
 import Profile from '../pages/profile/Profile';
 import Rank from '../pages/rank/Rank';
+import Setting from '../pages/setting/Setting';
 import Status from '../pages/status/Status';
+import Submission from '../pages/submission/Submission';
 import Tests from '../pages/test/Tests';
 
 const Router = () => {
@@ -15,10 +18,13 @@ const Router = () => {
       <Route exact path="/" component={Home} />
       <Route path="/signin" component={Signin} />
       <Route path="/signup" component={Signup} />
+      <Route path="/backend" component={Backend} />
       <Route path="/groups" component={Groups} />
       <Route path="/profile" component={Profile} />
       <Route path="/rank" component={Rank} />
+      <Route path="/setting" component={Setting} />
       <Route path="/status" component={Status} />
+      <Route path="/submission" component={Submission} />
       <Route path="/tests" component={Tests} />
     </Switch>
   );

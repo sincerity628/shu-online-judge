@@ -1,0 +1,15 @@
+/* Navbar */
+.logo-text {
+  font-size: 1.3rem;
+}
+.signin-btn {
+  margin-right: 5px !important;
+}
+
+.drop-item {
+  padding: 0 !important;
+}
+
+.sign-out {
+  margin:0 10px 10px !important;
+}
