@@ -20,6 +20,8 @@ request.interceptors.response.use(
   error => {
     if(error.response.status) {
       switch(error.response.status) {
+        case 401:
+          return error;
         case 500:
           alert('服务器发生错误，请检查服务器');
           break;
