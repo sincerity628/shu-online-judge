@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Button, Message } from 'semantic-ui-react';
 import sha256 from 'js-sha256';
 import api from '../../tools/api';
@@ -9,7 +9,9 @@ const initUser = {
   username: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  name: '',
+  school: ''
 };
 
 const initError = {
@@ -17,26 +19,60 @@ const initError = {
   content: ''
 };
 
+const initUsernameError = {
+  content: '长度至少需要4位',
+  pointing: 'below'
+};
+
+const initPasswordError = {
+  content: '长度至少需要6位',
+  pointing: 'below'
+}
+
 const initConfirmError = {
   content: '需要与密码一致噢！',
   pointing: 'below'
 };
 
+
 const Signup = () => {
+  const history = useHistory();
+
   const [user, setUser] = useState(initUser);
   const [error, setError] = useState(initError);
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [confirmError, setConfirmError] = useState(null);
+  const [usernameError, setUsernameError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
 
   const handleChange = (e) => {
     setError(initError);
 
-    if(e.target.id === 'confirmPassword') {
-      if(e.target.value !== user.password) {
-        setConfirmError(initConfirmError);
-      } else {
-        setConfirmError(null);
-      }
+    switch(e.target.id) {
+      case 'username':
+        if(e.target.value.length < 4) {
+          setUsernameError(initUsernameError);
+        } else {
+          setUsernameError(null);
+        }
+        break;
+      case 'password':
+        if(e.target.value.length < 6) {
+          setPasswordError(initPasswordError);
+        } else {
+          setPasswordError(null);
+        }
+        break;
+      case 'confirmPassword':
+        if(e.target.value !== user.password) {
+          setConfirmError(initConfirmError);
+        } else {
+          setConfirmError(null);
+        }
+        break;
+      default:
+        break;
     }
 
     setUser({
@@ -47,34 +83,48 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(confirmError) return;
+    if(usernameError || passwordError || confirmError) return;
+    setBtnLoading(true);
 
-    if(user.username.length < 4) {
-      setError({
-        isError: true,
-        content: '用户名长度至少需要4位'
-      });
-      setUser({
-        ...user,
-        username: ''
-      });
-      return;
-    }
+    const data = {
+      username: user.username,
+      password: sha256(user.password),
+      email: user.email,
+      name: user.name,
+      school: user.school
+    };
 
-    if(user.password.length < 6 ) {
-      setError({
-        isError: true,
-        content: '密码长度至少需要6位'
-      });
-      setUser({
-        ...user,
-        password: '',
-        confirmPassword: ''
-      });
-      return;
-    }
-    // signup success
-    setSignupSuccess(true);
+    api
+      .register(data)
+      .then(res => {
+        if(res.status === 200) {
+          
+          setUser(initUser);
+          setBtnLoading(false);
+          setSignupSuccess(true);
+
+          // deal with the res data
+          console.log(res);
+
+          setTimeout(() => {
+            setSignupSuccess(false);
+            history.push('/signin');
+          }, 2000);
+
+        } else {
+
+          setBtnLoading(false);
+          setError({
+            isError: true,
+            content: '用户名或邮箱重复'
+          });
+          setUser({
+            ...user,
+            username: '',
+            email: ''
+          });
+        }
+      })
     console.log(user);
 
   };
@@ -88,8 +138,9 @@ const Signup = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Field required>
             <label htmlFor="username">用户名：</label>
-            <input type="text" id="username" value={user.username}
-              onChange={handleChange} required placeholder="至少4位" />
+            <Form.Input type="text" id="username" value={user.username}
+              onChange={handleChange} required placeholder="至少4位"
+              error={usernameError} />
           </Form.Field>
 
           <Form.Field required>
@@ -100,8 +151,9 @@ const Signup = () => {
 
           <Form.Field required>
             <label htmlFor="password">密码：</label>
-            <input type="password" id="password" value={user.password}
-              onChange={handleChange} required placeholder="至少4位" />
+            <Form.Input type="password" id="password" value={user.password}
+              onChange={handleChange} required placeholder="至少6位"
+              error={passwordError} />
           </Form.Field>
 
           <Form.Field required>
@@ -109,6 +161,18 @@ const Signup = () => {
             <Form.Input type="password" id="confirmPassword"
               value={user.confirmPassword} onChange={handleChange} required
               error={confirmError} />
+          </Form.Field>
+
+          <Form.Field required>
+            <label htmlFor="passwordConfirm">姓名：</label>
+            <input type="text" id="name"
+              value={user.name} onChange={handleChange} required />
+          </Form.Field>
+
+          <Form.Field required>
+            <label htmlFor="passwordConfirm">学校：</label>
+            <input type="text" id="school"
+              value={user.school} onChange={handleChange} required />
           </Form.Field>
 
           { signupSuccess? (
@@ -119,7 +183,7 @@ const Signup = () => {
             <Message negative header="Aho!" content={error.content} />
           ) : null }
 
-          <Button color="green">Sign up</Button>
+          <Button color="green" loading={btnLoading}>Sign up</Button>
           <span className="side-func">
             <Link to="/signin" className="link">已有账户，直接登入</Link>
           </span>

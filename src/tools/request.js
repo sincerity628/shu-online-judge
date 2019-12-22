@@ -20,6 +20,8 @@ request.interceptors.response.use(
   error => {
     if(error.response.status) {
       switch(error.response.status) {
+        case 400:
+          return error;
         case 401:
           return error;
         case 500:
