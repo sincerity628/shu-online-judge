@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Button, Dropdown } from 'semantic-ui-react';
 import "./components.css";
 
-const Navbar = () => {
+const Navbar = ({ token, handleLogout }) => {
   const [activeItem, setActiveItem] = useState('');
 
   return (
@@ -27,31 +27,31 @@ const Navbar = () => {
         </Menu.Item>
 
         <Menu.Menu position="right">
-          <Menu.Item style={{padding: 0}}>
+          <div className="sign-btn">
             <Button basic size="small" className="signin-btn"
               as={Link} to="/signin"style={{marginLeft: '10px'}}
               onClick={() => setActiveItem('')}>Sign in</Button>
-            <Button secondary size="small" as={Link} to="/signup" 
+            <Button secondary size="small" as={Link} to="/signup"
             onClick={() => setActiveItem('')}>Sign up</Button>
+          </div>
 
-            <Dropdown text='(username)' pointing className='link item'>
-              <Dropdown.Menu style={{marginRight: '10px'}}>
-                <Dropdown.Header>(role)</Dropdown.Header>
+          <Dropdown text='(username)' pointing className='link item'>
+            <Dropdown.Menu style={{marginRight: '10px'}}>
+              <Dropdown.Header>(role)</Dropdown.Header>
 
-                <Dropdown.Item as={Link} to="/backend">后台管理</Dropdown.Item>
-                <Dropdown.Divider />
+              <Dropdown.Item as={Link} to="/backend">后台管理</Dropdown.Item>
+              <Dropdown.Divider />
 
-                <Dropdown.Item as={Link} to="/profile">个人主页</Dropdown.Item>
-                <Dropdown.Item as={Link} to="/submission">我的提交</Dropdown.Item>
-                <Dropdown.Item as={Link} to="/setting">密保设置</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Header>登出</Dropdown.Header>
-                <Button size="small" className="sign-out">Sign out.</Button>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Menu.Item>
+              <Dropdown.Item as={Link} to="/profile">个人主页</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/submission">我的提交</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/setting">密保设置</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Header>登出</Dropdown.Header>
+              <Button size="small" className="sign-out">Sign out.</Button>
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu.Menu>
-
+        
       </Menu>
     </div>
   );
