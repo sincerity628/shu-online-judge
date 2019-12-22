@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'semantic-ui-react';
+import sha256 from 'js-sha256';
+import api from '../../tools/api';
 import './auth.css';
 
 const Signup = () => {
@@ -26,10 +28,6 @@ const Signup = () => {
           <Form.Field required>
             <label htmlFor="passwordConfirm">再次输入密码：</label>
             <input type="password" />
-          </Form.Field>
-          <Form.Field>
-            <label htmlFor="school">学校：</label>
-            <input type="text" />
           </Form.Field>
           <Button color="green">Sign up</Button>
           <span className="side-func">
