@@ -19,21 +19,10 @@ const initError = {
   content: ''
 };
 
-const initUsernameError = {
-  content: '长度至少需要4位',
-  pointing: 'below'
-};
-
-const initPasswordError = {
-  content: '长度至少需要6位',
-  pointing: 'below'
-}
-
 const initConfirmError = {
   content: '需要与密码一致噢！',
   pointing: 'below'
 };
-
 
 const Signup = () => {
   const history = useHistory();
@@ -43,36 +32,16 @@ const Signup = () => {
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [confirmError, setConfirmError] = useState(null);
-  const [usernameError, setUsernameError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null);
 
   const handleChange = (e) => {
     setError(initError);
 
-    switch(e.target.id) {
-      case 'username':
-        if(e.target.value.length < 4) {
-          setUsernameError(initUsernameError);
-        } else {
-          setUsernameError(null);
-        }
-        break;
-      case 'password':
-        if(e.target.value.length < 6) {
-          setPasswordError(initPasswordError);
-        } else {
-          setPasswordError(null);
-        }
-        break;
-      case 'confirmPassword':
-        if(e.target.value !== user.password) {
-          setConfirmError(initConfirmError);
-        } else {
-          setConfirmError(null);
-        }
-        break;
-      default:
-        break;
+    if(e.target.id === 'confirmPassword') {
+      if(e.target.value !== user.password) {
+        setConfirmError(initConfirmError);
+      } else {
+        setConfirmError(null);
+      }
     }
 
     setUser({
@@ -83,7 +52,27 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(usernameError || passwordError || confirmError) return;
+    if(confirmError) return;
+    if(user.username.length < 4) {
+      setError({
+        isError: true,
+        content: '用户名长度至少需要4位'
+      });
+      return;
+    }
+    if(user.password.length < 6) {
+      setError({
+        isError: true,
+        content: '密码长度至少需要6位'
+      });
+      setUser({
+        ...user,
+        password: '',
+        confirmPassword: ''
+      });
+      return;
+    }
+
     setBtnLoading(true);
 
     const data = {
@@ -148,41 +137,41 @@ const Signup = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Field required>
             <label htmlFor="username">用户名：</label>
-            <Form.Input type="text" id="username" value={user.username}
+            <input type="text" id="username" value={user.username}
               onChange={handleChange} required placeholder="至少4位"
-              error={usernameError} />
+              autoComplete="off" />
           </Form.Field>
 
           <Form.Field required>
             <label htmlFor="email">邮箱：</label>
             <input type="email" id="email" value={user.email}
-              onChange={handleChange} required />
+              onChange={handleChange} required autoComplete="off" />
           </Form.Field>
 
           <Form.Field required>
             <label htmlFor="password">密码：</label>
-            <Form.Input type="password" id="password" value={user.password}
+            <input type="password" id="password" value={user.password}
               onChange={handleChange} required placeholder="至少6位"
-              error={passwordError} />
+              autoComplete="off" />
           </Form.Field>
 
           <Form.Field required>
             <label htmlFor="passwordConfirm">再次输入密码：</label>
             <Form.Input type="password" id="confirmPassword"
               value={user.confirmPassword} onChange={handleChange} required
-              error={confirmError} />
+              error={confirmError} autoComplete="off" />
           </Form.Field>
 
           <Form.Field required>
             <label htmlFor="passwordConfirm">姓名：</label>
-            <input type="text" id="name"
-              value={user.name} onChange={handleChange} required />
+            <input type="text" id="name" value={user.name} required
+              onChange={handleChange} autoComplete="off" />
           </Form.Field>
 
           <Form.Field required>
             <label htmlFor="passwordConfirm">学校：</label>
-            <input type="text" id="school"
-              value={user.school} onChange={handleChange} required />
+            <input type="text" id="school" value={user.school} required
+            onChange={handleChange} autoComplete="off" />
           </Form.Field>
 
           { signupSuccess? (
