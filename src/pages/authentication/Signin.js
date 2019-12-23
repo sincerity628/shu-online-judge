@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 import { Form, Button, Message } from 'semantic-ui-react';
 import sha256 from 'js-sha256';
 import api from '../../tools/api';
@@ -17,6 +18,7 @@ const initError = {
 
 const Signin = () => {
   const history = useHistory();
+  const { dispatch } = useContext(UserContext);
 
   const [user, setUser] = useState(initUser);
   const [error, setError] = useState(initError);
@@ -55,7 +57,11 @@ const Signin = () => {
       .then(res => {
         if(res.status === 200) {
           // login success
-          localStorage.setItem('token', res.data.token);
+          console.log(res);
+          let user = {
+            token: res.data.token
+          };
+          dispatch({ type: 'LOGIN', user });
 
           setUser(initUser);
           setBtnLoading(false);

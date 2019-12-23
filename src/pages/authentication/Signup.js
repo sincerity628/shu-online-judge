@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Button, Message } from 'semantic-ui-react';
+import { UserContext } from '../../contexts/UserContext';
 import sha256 from 'js-sha256';
 import api from '../../tools/api';
 import './auth.css';
@@ -37,6 +38,7 @@ const initConfirmError = {
 
 const Signup = () => {
   const history = useHistory();
+  const { dispatch } = useContext(UserContext);
 
   const [user, setUser] = useState(initUser);
   const [error, setError] = useState(initError);
@@ -103,6 +105,9 @@ const Signup = () => {
           setBtnLoading(false);
           setSignupSuccess(true);
 
+          let user = res.data;
+          dispatch({ type: 'SIGNUP', user });
+
           setTimeout(() => {
             setSignupSuccess(false);
             history.push('/signin');
@@ -137,8 +142,6 @@ const Signup = () => {
           }
         }
       })
-    console.log(user);
-
   };
 
   return (
