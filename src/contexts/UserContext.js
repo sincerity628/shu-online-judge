@@ -1,6 +1,5 @@
 import React, { createContext, useReducer, useEffect, useState } from 'react';
 import { UserReducer } from '../reducers/UserReducer';
-import api from '../tools/api';
 
 export const UserContext = createContext();
 

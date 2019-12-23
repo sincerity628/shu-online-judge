@@ -2,7 +2,6 @@ export const UserReducer = (state, action) => {
   switch(action.type) {
     case 'LOGIN':
       localStorage.setItem('token', action.user.token);
-
       return {
         ...state,
         token: action.user.token

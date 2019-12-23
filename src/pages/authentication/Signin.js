@@ -62,16 +62,6 @@ const Signin = () => {
           };
           dispatch({ type: 'LOGIN', user });
 
-          // 更新用户信息
-          api
-            .getUserInfo()
-            .then(res => {
-              if(res.status === 200) {
-                let user = res.data;
-                dispatch({ type: 'UPDATE', user });
-              }
-            })
-
           setUser(initUser);
           setBtnLoading(false);
           setLoginSuccess(true);
@@ -79,6 +69,15 @@ const Signin = () => {
           setTimeout(() => {
             setLoginSuccess(false);
             history.push('/');
+            // 更新用户信息
+            api
+              .getUserInfo()
+              .then(res => {
+                if(res.status === 200) {
+                  let user = res.data;
+                  dispatch({ type: 'UPDATE', user });
+                }
+              })
           }, 2000);
 
         } else {

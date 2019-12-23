@@ -1,14 +1,32 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { Menu, Button, Dropdown } from 'semantic-ui-react';
 import "./components.css";
-import api from '../tools/api';
 
 const Navbar = () => {
   const history = useHistory();
   const { user, token, dispatch } = useContext(UserContext);
   const [activeItem, setActiveItem] = useState('');
+  const [role, setRole] = useState('');
+
+  useEffect(() => {
+    if(user && user.authorities) {
+      switch(user.authorities[0].authority) {
+        case 'ROLE_USER':
+          setRole('同学');
+          break;
+        case 'ROLE_STUFF':
+          setRole('教师');
+          break;
+        case 'ROLE_ADMIN':
+          setRole('管理员');
+          break;
+        default:
+          break;
+      }
+    }
+  }, [user]);
 
   const handleSignout = () => {
     dispatch({ type: 'LOGOUT' });
@@ -38,11 +56,14 @@ const Navbar = () => {
 
         <Menu.Menu position="right">
         { token ? (
-          <Dropdown text='(username)' pointing className='link item'>
+          <Dropdown text={ user? user.username : null } pointing className='link item'>
             <Dropdown.Menu style={{marginRight: '10px'}}>
-              <Dropdown.Header>(role)</Dropdown.Header>
+              <Dropdown.Header>({ role })</Dropdown.Header>
 
-              <Dropdown.Item as={Link} to="/backend">后台管理</Dropdown.Item>
+              { role !== '同学' ? (
+                <Dropdown.Item as={Link} to="/backend">后台管理</Dropdown.Item>
+              ) : null }
+
               <Dropdown.Divider />
 
               <Dropdown.Item as={Link} to="/profile">个人主页</Dropdown.Item>
