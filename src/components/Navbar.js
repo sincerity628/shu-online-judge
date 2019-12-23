@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
 import { Menu, Button, Dropdown } from 'semantic-ui-react';
 import "./components.css";
+import api from '../tools/api';
 
-const Navbar = ({ token, handleLogout }) => {
+const Navbar = () => {
+  const history = useHistory();
+  const { user, token, dispatch } = useContext(UserContext);
   const [activeItem, setActiveItem] = useState('');
+
+  const handleSignout = () => {
+    dispatch({ type: 'LOGOUT' });
+    // logout success
+    history.push('/');
+  }
 
   return (
     <div className="navbar">
@@ -27,14 +37,7 @@ const Navbar = ({ token, handleLogout }) => {
         </Menu.Item>
 
         <Menu.Menu position="right">
-          <div className="sign-btn">
-            <Button basic size="small" className="signin-btn"
-              as={Link} to="/signin"style={{marginLeft: '10px'}}
-              onClick={() => setActiveItem('')}>Sign in</Button>
-            <Button secondary size="small" as={Link} to="/signup"
-            onClick={() => setActiveItem('')}>Sign up</Button>
-          </div>
-
+        { token ? (
           <Dropdown text='(username)' pointing className='link item'>
             <Dropdown.Menu style={{marginRight: '10px'}}>
               <Dropdown.Header>(role)</Dropdown.Header>
@@ -47,11 +50,21 @@ const Navbar = ({ token, handleLogout }) => {
               <Dropdown.Item as={Link} to="/setting">密保设置</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Header>登出</Dropdown.Header>
-              <Button size="small" className="sign-out">Sign out.</Button>
+              <Button size="small" className="sign-out"
+                onClick={handleSignout}>Sign out.</Button>
             </Dropdown.Menu>
           </Dropdown>
+        ) : (
+          <div className="sign-btn">
+            <Button basic size="small" className="signin-btn"
+              as={Link} to="/signin"style={{marginLeft: '10px'}}
+              onClick={() => setActiveItem('')}>Sign in</Button>
+            <Button secondary size="small" as={Link} to="/signup"
+            onClick={() => setActiveItem('')}>Sign up</Button>
+          </div>
+        ) }
         </Menu.Menu>
-        
+
       </Menu>
     </div>
   );

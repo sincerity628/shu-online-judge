@@ -18,7 +18,7 @@ request.interceptors.response.use(
   },
    // status code: other
   error => {
-    if(error.response.status) {
+    if(error) {
       switch(error.response.status) {
         case 400:
           return Promise.resolve(error.response);
