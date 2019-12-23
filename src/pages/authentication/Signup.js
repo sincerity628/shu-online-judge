@@ -98,31 +98,43 @@ const Signup = () => {
       .register(data)
       .then(res => {
         if(res.status === 200) {
-          
+
           setUser(initUser);
           setBtnLoading(false);
           setSignupSuccess(true);
-
-          // deal with the res data
-          console.log(res);
 
           setTimeout(() => {
             setSignupSuccess(false);
             history.push('/signin');
           }, 2000);
 
-        } else {
-
+        } else if(res.status === 400) {
+          console.log(res);
           setBtnLoading(false);
-          setError({
-            isError: true,
-            content: '用户名或邮箱重复'
-          });
-          setUser({
-            ...user,
-            username: '',
-            email: ''
-          });
+
+          if(res.data.message === '邮箱重复！') {
+            setError({
+              isError: true,
+              content: '邮箱重复'
+            });
+            setUser({
+              ...user,
+              email: ''
+            });
+            return;
+          }
+
+          if(res.data.message === '用户名重复！') {
+            setError({
+              isError: true,
+              content: '用户名重复'
+            });
+            setUser({
+              ...user,
+              username: ''
+            });
+            return;
+          }
         }
       })
     console.log(user);

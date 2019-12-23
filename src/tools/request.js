@@ -21,9 +21,9 @@ request.interceptors.response.use(
     if(error.response.status) {
       switch(error.response.status) {
         case 400:
-          return error;
+          return Promise.resolve(error.response);
         case 401:
-          return error;
+          return Promise.resolve(error.response);
         case 500:
           alert('服务器发生错误，请检查服务器');
           break;
