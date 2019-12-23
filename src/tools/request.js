@@ -6,6 +6,21 @@ const request = axios.create({
   baseURL: base_url
 });
 
+// axios请求拦截器
+request.interceptors.request.use(
+  function(config) {
+      // 设置统一的请求头
+    let token = localStorage.getItem('token');
+    if(token) {
+      config.headers.Authorization = "Bearer " + token;
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+
 // axios相应拦截器
 request.interceptors.response.use(
   res => {
