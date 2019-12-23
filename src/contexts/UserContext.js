@@ -6,7 +6,11 @@ export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [user, dispatch] = useReducer(UserReducer, {});
+  const [user, dispatch] = useReducer(UserReducer, {}, () => {
+
+    let localData = localStorage.getItem('user');
+    return localData !== 'undefined' ? JSON.parse(localData) : {};
+  });
 
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user));
