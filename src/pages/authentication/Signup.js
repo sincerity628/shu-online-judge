@@ -105,9 +105,6 @@ const Signup = () => {
           setBtnLoading(false);
           setSignupSuccess(true);
 
-          let user = res.data;
-          dispatch({ type: 'SIGNUP', user });
-
           setTimeout(() => {
             setSignupSuccess(false);
             history.push('/signin');

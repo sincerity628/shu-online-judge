@@ -57,11 +57,20 @@ const Signin = () => {
       .then(res => {
         if(res.status === 200) {
           // login success
-          console.log(res);
           let user = {
             token: res.data.token
           };
           dispatch({ type: 'LOGIN', user });
+
+          // 更新用户信息
+          api
+            .getUserInfo()
+            .then(res => {
+              if(res.status === 200) {
+                let user = res.data;
+                dispatch({ type: 'UPDATE', user });
+              }
+            })
 
           setUser(initUser);
           setBtnLoading(false);
