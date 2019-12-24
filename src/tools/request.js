@@ -3,7 +3,8 @@ import { base_url } from './base_url';
 
 // create anaxios instance
 const request = axios.create({
-  baseURL: base_url
+  baseURL: base_url,
+  // timeout: 5000 //请求超时时间
 });
 
 // axios请求拦截器
@@ -21,7 +22,7 @@ request.interceptors.request.use(
   }
 );
 
-// axios相应拦截器
+// axios响应拦截器
 request.interceptors.response.use(
   res => {
     // status code: 200
@@ -33,12 +34,8 @@ request.interceptors.response.use(
   },
    // status code: other
   error => {
-    if(error) {
+    if(error && error.response) {
       switch(error.response.status) {
-        case 400:
-          return Promise.resolve(error.response);
-        case 401:
-          return Promise.resolve(error.response);
         case 500:
           alert('服务器发生错误，请检查服务器');
           break;
@@ -52,9 +49,10 @@ request.interceptors.response.use(
           alert('网关超时');
           break;
         default:
-          alert(error.response.data.message);
+          return Promise.resolve(error.response);
       }
     }
+    return Promise.resolve(error.response);
   }
 );
 

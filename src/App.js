@@ -10,7 +10,9 @@ function App() {
       <div className="App">
         <UserContextProvider>
           <Navbar  />
-          <Router />
+          <div className="box">
+            <Router />
+          </div>
         </UserContextProvider>
       </div>
     </BrowserRouter>

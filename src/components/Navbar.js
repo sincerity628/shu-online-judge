@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
-import { Menu, Button, Dropdown } from 'semantic-ui-react';
+import { Menu, Button, Dropdown, Dimmer } from 'semantic-ui-react';
 import "./components.css";
 
 const Navbar = () => {
   const history = useHistory();
   const { user, token, dispatch } = useContext(UserContext);
   const [activeItem, setActiveItem] = useState('');
+  const [maskActive, setMaskActive] = useState(false);
   const [role, setRole] = useState('');
 
   useEffect(() => {
@@ -29,13 +30,18 @@ const Navbar = () => {
   }, [user]);
 
   const handleSignout = () => {
-    dispatch({ type: 'LOGOUT' });
-    // logout success
-    history.push('/');
+    setMaskActive(true);
+    setTimeout(() => {
+      // logout success
+      setMaskActive(false);
+      dispatch({ type: 'LOGOUT' });
+      history.push('/');
+    }, 500);
   }
 
   return (
     <div className="navbar">
+      <Dimmer active={maskActive} page></Dimmer>
       <Menu>
         <Menu.Item as={Link} to="/"><div className="logo-text">SHU Online Judge</div></Menu.Item>
         <Menu.Item name="problem" active={ activeItem ==='problem' }

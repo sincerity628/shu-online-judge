@@ -37,15 +37,19 @@ const Signin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setBtnLoading(true);
-
     if(user.password.length < 6) {
       setError({
         isError: true,
         content: '密码长度至少需要6位'
       });
+      setUser({
+        ...user,
+        password: ''
+      });
       return;
     }
+
+    setBtnLoading(true);
 
     const data = {
       username: user.username,
@@ -85,7 +89,7 @@ const Signin = () => {
           setBtnLoading(false);
           setError({
             isError: true,
-            content: '用户名或密码错误'
+            content: '密码错误'
           });
           setUser({
             ...user,
@@ -93,6 +97,10 @@ const Signin = () => {
           });
 
         }
+      })
+      .catch(error => {
+        console.log(error);
+
       })
   };
 
