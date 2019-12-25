@@ -43,7 +43,9 @@ const Navbar = () => {
     <div className="navbar">
       <Dimmer active={maskActive} page></Dimmer>
       <Menu>
-        <Menu.Item as={Link} to="/"><div className="logo-text">SHU Online Judge</div></Menu.Item>
+        <Menu.Item as={Link} to="/" onClick={() => setActiveItem('')}>
+          <div className="logo-text">SHU Online Judge</div>
+        </Menu.Item>
         <Menu.Item name="problem" active={ activeItem ==='problem' }
           onClick={() => setActiveItem('problem')} as={Link} to="/">题目
         </Menu.Item>
@@ -61,7 +63,9 @@ const Navbar = () => {
         </Menu.Item>
         <Menu.Menu position="right">
         { token ? (
-          <Dropdown text={ user? user.username : null } pointing className='link item'>
+          <Dropdown text={ user? user.username : null } pointing
+            className='link item'>
+
             <Dropdown.Menu style={{marginRight: '10px'}}>
               <Dropdown.Header>({ role })</Dropdown.Header>
 

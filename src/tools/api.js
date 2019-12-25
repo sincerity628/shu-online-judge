@@ -5,8 +5,11 @@ export default {
   login: (data) => request.post('/auth', data),
   register: (data) => request.post('/register', data),
   getUserInfo: (data) => request.get('/me'),
-  // get problems
+  // problem
   getProblems: (data) => request.get('/problems', { params: data }),
+  // tag
   getTags: () => request.get('/tags'),
+  // announcement
+  getAllAnnouncements: () =>request.get('/announcements'),
 
 }

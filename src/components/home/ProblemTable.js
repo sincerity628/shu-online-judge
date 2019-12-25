@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Table, Label } from 'semantic-ui-react';
 
 const ProblemTable = ({ problems }) => {
-  console.log(problems);
 
   const calculateDifficulty = (difficulty) => {
     switch(difficulty) {

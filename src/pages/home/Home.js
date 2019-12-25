@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Input } from 'semantic-ui-react';
-import ProblemTable from '../../components/ProblemTable';
+import ProblemTable from '../../components/home/ProblemTable';
+import Announcement from '../../components/home/Announcement';
 import api from '../../tools/api';
 import './home.css';
 
 const Home = () => {
   const [problems, setProblems] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
+  const [tags, setTags] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
-  const [tags, setTags] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [searchTags, setSearchTags] = useState('');
 
@@ -39,6 +41,15 @@ const Home = () => {
           // failed get the tags
         }
       })
+    api
+      .getAllAnnouncements()
+      .then(res => {
+        if(res.status === 200) {
+          setAnnouncements(res.data);
+        } else {
+          // failed get the announcements
+        }
+      })
     }, [page]);
 
   return (
@@ -48,18 +59,20 @@ const Home = () => {
       <Grid columns={2}>
         <Grid.Row>
           <Grid.Column mobile={16} tablet={12} computer={12}>
-            <div>
-              <form className="search-input">
-                <Input icon="search" placeholder="search..."
-                  value={searchText} onChange={e => setSearchText(e.target.value)} />
-              </form>
+            <Input className="search-input" icon="search"
+              placeholder="search..." value={searchText}
+              onChange={e => setSearchText(e.target.value)} />
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Grid.Column mobile={16} tablet={12} computer={12}>
               <ProblemTable problems={problems} />
-            </div>
           </Grid.Column>
 
           <Grid.Column mobile={16} tablet={4} computer={4}>
             <div>
-              <h4>announce</h4>
+              <Announcement announcements={announcements} />
               <h4>tags</h4>
             </div>
           </Grid.Column>
