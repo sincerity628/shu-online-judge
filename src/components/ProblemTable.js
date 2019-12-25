@@ -1,17 +1,56 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
 const ProblemTable = ({ problems }) => {
+  console.log(problems);
+
+  const calculateDifficulty = (difficulty) => {
+    switch(difficulty) {
+      case 'HIGH': return '困难';
+      case 'MEDIUM': return '中等';
+      case 'LOW': return '简单';
+      default: return '';
+    }
+  }
+
   return (
-    <Table celled>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>#</Table.HeaderCell>
-          <Table.HeaderCell>标题</Table.HeaderCell>
-          <Table.HeaderCell>通过率</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-    </Table>
+    <div className="table-container">
+    { problems.length? (
+      <Table celled unstackable>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>#</Table.HeaderCell>
+            <Table.HeaderCell>标题</Table.HeaderCell>
+            <Table.HeaderCell>难度</Table.HeaderCell>
+            <Table.HeaderCell>通过率</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          { problems.map((problem, index) => {
+            return (
+              <Table.Row key={problem.id}>
+                <Table.Cell collapsing>{ index + 1 }</Table.Cell>
+                <Table.Cell>
+                  <Link to={`/problem/${problem.id}`}>{ problem.title }</Link>
+                </Table.Cell>
+                <Table.Cell collapsing>
+                  { calculateDifficulty(problem.difficulty) }
+                </Table.Cell>
+                <Table.Cell collapsing>
+                  { (problem.acceptRate * 100).toFixed(2) } %
+                  ({ problem.acceptCount } / { problem.submitCount })
+                </Table.Cell>
+              </Table.Row>
+            );
+          }) }
+        </Table.Body>
+      </Table>
+    ) : (
+      <p>loading...</p>
+    ) }
+    </div>
   );
 }
 

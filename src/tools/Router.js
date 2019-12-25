@@ -6,6 +6,7 @@ import Backend from '../pages/backend/Backend';
 import ForgetPassword from '../pages/forget-password/ForgetPassword';
 import Groups from '../pages/group/Groups';
 import Home from '../pages/home/Home';
+import ProblemDetail from '../pages/problem-detail/ProblemDetail';
 import Profile from '../pages/profile/Profile';
 import Rank from '../pages/rank/Rank';
 import Setting from '../pages/setting/Setting';
@@ -22,6 +23,7 @@ const Router = () => {
       <Route path="/backend" component={Backend} />
       <Route path="/forget-password" component={ForgetPassword} />
       <Route path="/groups" component={Groups} />
+      <Route path="/problem/:id" component={ProblemDetail} />
       <Route path="/profile" component={Profile} />
       <Route path="/rank" component={Rank} />
       <Route path="/setting" component={Setting} />

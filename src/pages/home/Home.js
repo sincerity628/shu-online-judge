@@ -5,10 +5,10 @@ import api from '../../tools/api';
 import './home.css';
 
 const Home = () => {
-  const [problems, setProblems] = useState({});
+  const [problems, setProblems] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
-  const [tags, setTags] = useState({});
+  const [tags, setTags] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [searchTags, setSearchTags] = useState('');
 
@@ -45,15 +45,14 @@ const Home = () => {
       <h1>Home</h1>
       <Grid columns={2}>
         <Grid.Row>
-          <Grid.Column mobile={16} tablet={11} computer={11}>
+          <Grid.Column mobile={16} tablet={12} computer={12}>
             <div>
               <h4>search</h4>
-              <h4>table</h4>
               <ProblemTable problems={problems} />
             </div>
           </Grid.Column>
 
-          <Grid.Column mobile={16} tablet={5} computer={5}>
+          <Grid.Column mobile={16} tablet={4} computer={4}>
             <div>
               <h4>announce</h4>
               <h4>tags</h4>
