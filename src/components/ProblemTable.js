@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table } from 'semantic-ui-react';
+import { Table, Label } from 'semantic-ui-react';
 
 const ProblemTable = ({ problems }) => {
   console.log(problems);
 
   const calculateDifficulty = (difficulty) => {
     switch(difficulty) {
-      case 'HIGH': return '困难';
-      case 'MEDIUM': return '中等';
-      case 'LOW': return '简单';
+      case 'HIGH':
+        return ( <Label color="red">困难</Label> );
+      case 'MEDIUM':
+        return ( <Label color="yellow">中等</Label> );
+      case 'LOW':
+        return ( <Label color="green">简单</Label> );
       default: return '';
     }
   }
@@ -40,7 +43,7 @@ const ProblemTable = ({ problems }) => {
                 </Table.Cell>
                 <Table.Cell collapsing>
                   { (problem.acceptRate * 100).toFixed(2) } %
-                  ({ problem.acceptCount } / { problem.submitCount })
+                  ( { problem.acceptCount } / { problem.submitCount } )
                 </Table.Cell>
               </Table.Row>
             );
@@ -48,7 +51,7 @@ const ProblemTable = ({ problems }) => {
         </Table.Body>
       </Table>
     ) : (
-      <p>loading...</p>
+      <p>problems not found...</p>
     ) }
     </div>
   );

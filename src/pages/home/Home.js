@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Input } from 'semantic-ui-react';
 import ProblemTable from '../../components/ProblemTable';
 import api from '../../tools/api';
 import './home.css';
@@ -16,7 +16,8 @@ const Home = () => {
     api
       .getProblems({
         page: page,
-        size: 10
+        size: 10,
+        title: searchText
       })
       .then(res => {
         if(res.status === 200) {
@@ -26,7 +27,7 @@ const Home = () => {
           // failed get the problems
         }
       })
-  }, [page, searchTags]);
+  }, [page, searchText, searchTags]);
 
   useEffect(() => {
     api
@@ -43,11 +44,15 @@ const Home = () => {
   return (
     <div className="home">
       <h1>Home</h1>
+
       <Grid columns={2}>
         <Grid.Row>
           <Grid.Column mobile={16} tablet={12} computer={12}>
             <div>
-              <h4>search</h4>
+              <form className="search-input">
+                <Input icon="search" placeholder="search..."
+                  value={searchText} onChange={e => setSearchText(e.target.value)} />
+              </form>
               <ProblemTable problems={problems} />
             </div>
           </Grid.Column>
