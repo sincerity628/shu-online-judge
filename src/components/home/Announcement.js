@@ -4,11 +4,10 @@ import { Segment, List } from 'semantic-ui-react';
 import '../components.css';
 
 const Announcement = ({ announcements }) => {
-  console.log(announcements);
   return (
     <div className="announcement">
       { announcements.length? (
-        <div className="announce-card">
+        <div className="card-box">
           <Segment attached="top">
             <h5>公告栏</h5>
           </Segment>
@@ -26,7 +25,7 @@ const Announcement = ({ announcements }) => {
             </List>
           </Segment>
         </div>
-      ) : (null) }
+      ) : null }
     </div>
   );
 

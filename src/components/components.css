@@ -21,7 +21,25 @@
 
 /* Announcement */
 @media only screen and (max-width: 767px) {
-  .announce-card {
+  .card-box {
     margin-top: 20px;
   }
+}
+
+/* TagGroup */
+.tag-group {
+  margin-top: 20px;
+}
+
+.tag-label {
+  margin: 5px 5px 0 0 !important;
+}
+
+.tag-label-active {
+  background-color: #d6d6d6 !important;
+}
+
+.tag-label:hover {
+  cursor: pointer;
+  background-color: #d6d6d6 !important;
 }

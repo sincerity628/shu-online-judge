@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Input } from 'semantic-ui-react';
 import ProblemTable from '../../components/home/ProblemTable';
 import Announcement from '../../components/home/Announcement';
+import TagGroup from '../../components/home/TagGroup';
 import api from '../../tools/api';
 import './home.css';
 
@@ -12,14 +13,15 @@ const Home = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
   const [searchText, setSearchText] = useState('');
-  const [searchTags, setSearchTags] = useState('');
+  const [searchTag, setSearchTag] = useState('');
 
   useEffect(() => {
     api
       .getProblems({
         page: page,
         size: 10,
-        title: searchText
+        title: searchText,
+        tags: searchTag
       })
       .then(res => {
         if(res.status === 200) {
@@ -29,7 +31,7 @@ const Home = () => {
           // failed get the problems
         }
       })
-  }, [page, searchText, searchTags]);
+  }, [page, searchText, searchTag]);
 
   useEffect(() => {
     api
@@ -52,6 +54,10 @@ const Home = () => {
       })
     }, [page]);
 
+    const chooseTag = (id) => {
+      setSearchTag(id);
+    }
+
   return (
     <div className="home">
       <h1>Home</h1>
@@ -73,7 +79,7 @@ const Home = () => {
           <Grid.Column mobile={16} tablet={4} computer={4}>
             <div>
               <Announcement announcements={announcements} />
-              <h4>tags</h4>
+              <TagGroup tags={tags} chooseTag={chooseTag} />
             </div>
           </Grid.Column>
         </Grid.Row>
