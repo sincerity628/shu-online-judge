@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Grid, Input, Pagination, Dimmer } from 'semantic-ui-react';
 import ProblemTable from '../../components/home/ProblemTable';
 import Announcement from '../../components/home/Announcement';
@@ -7,6 +8,8 @@ import api from '../../tools/api';
 import './home.css';
 
 const Home = () => {
+  const history = useHistory();
+
   const [problems, setProblems] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [tags, setTags] = useState([]);
@@ -37,9 +40,12 @@ const Home = () => {
           }
         }
       })
+      .catch(error => {
+        history.push('/internet-error');
+      })
 
       return () => { unmounted = true; };
-  }, [page, searchText, searchTag]);
+  }, [page, searchText, searchTag, history]);
 
   // get the tags & announcements
   useEffect(() => {
@@ -48,16 +54,17 @@ const Home = () => {
       .getTags()
       .then(res => {
         if(!unmounted) {
-          if(res && res.status === 200) {
+          if(res.status === 200) {
             setTags(res.data);
           }
         }
       })
+
     api
       .getAllAnnouncements()
       .then(res => {
         if(!unmounted) {
-          if(res && res.status === 200) {
+          if(res.status === 200) {
             setAnnouncements(res.data);
           }
         }

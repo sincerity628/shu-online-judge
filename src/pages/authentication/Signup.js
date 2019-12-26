@@ -100,8 +100,6 @@ const Signup = () => {
         }
       })
       .catch(error => {
-        console.log(error);
-        console.log('signup error.');
         if(error.status === 400) {
           setBtnLoading(false);
 

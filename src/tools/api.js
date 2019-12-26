@@ -10,6 +10,7 @@ export default {
   // tag
   getTags: () => request.get('/tags'),
   // announcement
-  getAllAnnouncements: () =>request.get('/announcements'),
+  getAllAnnouncements: () => request.get('/announcements'),
+  getAnnouncement: (id) => request.get(`/announcements/${id}`),
 
 }

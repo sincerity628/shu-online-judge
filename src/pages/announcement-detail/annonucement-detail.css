@@ -1,0 +1,22 @@
+.announcement-detail {
+  width: 80%;
+  margin: 5% auto;
+}
+
+.announce-title {
+  color: #333;
+  text-align: center;
+}
+
+.announce-title span {
+  color: #6f6e6e;
+}
+
+.announce-author {
+  margin-right: 30px;
+}
+
+.announce-content {
+  margin-top: 10%;
+  color: #6f6e6e;
+}
