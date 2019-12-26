@@ -17,7 +17,7 @@ const Home = () => {
   const [maskActive, setMaskActive] = useState(false);
 
   useEffect(() => {
-    // mask on
+    let unmounted = false;
     setMaskActive(true);
     api
       .getProblems({
@@ -27,39 +27,43 @@ const Home = () => {
         tags: searchTag
       })
       .then(res => {
-        if(res.status === 200) {
-          // mask off
-          setMaskActive(false);
-          setProblems(res.data.list);
-          setTotal(res.data.total);
-        } else {
-          // failed get the problems
-          // mask off
-          setMaskActive(false);
+        if(!unmounted) {
+          if(res.status === 200) {
+            setMaskActive(false);
+            setProblems(res.data.list);
+            setTotal(res.data.total);
+          } else {
+            setMaskActive(false);
+          }
         }
       })
+
+      return () => { unmounted = true; };
   }, [page, searchText, searchTag]);
 
   // get the tags & announcements
   useEffect(() => {
+    let unmounted = false;
     api
       .getTags()
       .then(res => {
-        if(res.status === 200) {
-          setTags(res.data);
-        } else {
-          // failed get the tags
+        if(!unmounted) {
+          if(res && res.status === 200) {
+            setTags(res.data);
+          }
         }
       })
     api
       .getAllAnnouncements()
       .then(res => {
-        if(res.status === 200) {
-          setAnnouncements(res.data);
-        } else {
-          // failed get the announcements
+        if(!unmounted) {
+          if(res && res.status === 200) {
+            setAnnouncements(res.data);
+          }
         }
       })
+
+    return () => { unmounted = true; };
     }, [tags]);
 
     const chooseTag = (id) => {
@@ -73,7 +77,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Dimmer active={maskActive} page inverted> </Dimmer>
+      <Dimmer active={maskActive} page inverted></Dimmer>
       <Grid columns={2}>
         <Grid.Row>
 

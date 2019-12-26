@@ -83,24 +83,18 @@ const Signin = () => {
                 }
               })
           }, 2000);
-
-        } else {
-          // login failed
-          setBtnLoading(false);
-          setError({
-            isError: true,
-            content: '密码错误'
-          });
-          setUser({
-            ...user,
-            password: ''
-          });
-
         }
       })
       .catch(error => {
-        console.log(error);
-
+        setBtnLoading(false);
+        setError({
+          isError: true,
+          content: '密码错误'
+        });
+        setUser({
+          ...user,
+          password: ''
+        });
       })
   };
 

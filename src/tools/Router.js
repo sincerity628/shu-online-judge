@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import InternetError from '../pages/404/InternetError';
 import AnnouncementDetail from '../pages/announcement-detail/AnnouncementDetail';
 import Signin from '../pages/authentication/Signin';
 import Signup from '../pages/authentication/Signup';
@@ -19,6 +20,7 @@ const Router = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route path="/internet-error" component={InternetError} />
       <Route path="/announcement/:id" component={AnnouncementDetail} />
       <Route path="/signin" component={Signin} />
       <Route path="/signup" component={Signup} />

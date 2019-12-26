@@ -4,7 +4,7 @@ import { base_url } from './base_url';
 // create anaxios instance
 const request = axios.create({
   baseURL: base_url,
-  // timeout: 5000 //请求超时时间
+  timeout: 5000 //请求超时时间
 });
 
 // axios请求拦截器
@@ -26,7 +26,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   res => {
     // status code: 200
-    if(res.status === 200) {
+    if(res && res.status === 200) {
       return Promise.resolve(res);
     } else {
       return Promise.reject(res);
@@ -49,10 +49,13 @@ request.interceptors.response.use(
           alert('网关超时');
           break;
         default:
-          return Promise.resolve(error.response);
+          return Promise.reject(error.response);
       }
     }
-    return Promise.resolve(error.response);
+    else {
+      return Promise.reject(error.response);
+    }
+    return Promise.reject(error.response);
   }
 );
 

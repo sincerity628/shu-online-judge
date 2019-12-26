@@ -97,11 +97,15 @@ const Signup = () => {
             history.push('/signin');
           }, 2000);
 
-        } else if(res.status === 400) {
-          console.log(res);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        console.log('signup error.');
+        if(error.status === 400) {
           setBtnLoading(false);
 
-          if(res.data.message === '邮箱重复！') {
+          if(error.data.message === '邮箱重复！') {
             setError({
               isError: true,
               content: '邮箱重复'
@@ -113,7 +117,7 @@ const Signup = () => {
             return;
           }
 
-          if(res.data.message === '用户名重复！') {
+          if(error.data.message === '用户名重复！') {
             setError({
               isError: true,
               content: '用户名重复'
