@@ -1,4 +1,10 @@
 .search-input {
   float: right;
+  margin-bottom: 20px;
   width: 193px !important;
+}
+
+.home-pagination {
+  margin: 20px auto 0;
+  text-align: center;
 }

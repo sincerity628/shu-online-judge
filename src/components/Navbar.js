@@ -41,7 +41,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <Dimmer active={maskActive} page></Dimmer>
+      <Dimmer active={maskActive} page inverted></Dimmer>
       <Menu>
         <Menu.Item as={Link} to="/" onClick={() => setActiveItem('')}>
           <div className="logo-text">SHU Online Judge</div>
