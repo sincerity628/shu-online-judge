@@ -7,6 +7,7 @@ export default {
   getUserInfo: (data) => request.get('/me'),
   // problem
   getProblems: (data) => request.get('/problems', { params: data }),
+  getProblem: (id) => request.get(`/problems/${id}`),
   // tag
   getTags: () => request.get('/tags'),
   // announcement

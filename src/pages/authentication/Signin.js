@@ -87,6 +87,7 @@ const Signin = () => {
       })
       .catch(error => {
         setBtnLoading(false);
+        console.log(error);
         setError({
           isError: true,
           content: '密码错误'

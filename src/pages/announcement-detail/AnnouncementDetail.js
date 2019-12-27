@@ -5,12 +5,12 @@ import './annonucement-detail.css';
 const AnnouncementDetail = (props) => {
   const [announcement, setAnnouncement] = useState({});
   const [loading, setLoading] = useState(false);
-  const getOnce = 0;
 
   useEffect(() => {
     let unmounted = false;
-    setLoading(true);
     const id = props.match.params.id;
+    setLoading(true);
+    
     api
       .getAnnouncement(id)
       .then(res => {
@@ -21,7 +21,7 @@ const AnnouncementDetail = (props) => {
       })
 
     return () => { unmounted = true; };
-  }, [getOnce]);
+  }, [props.match.params.id]);
 
   return (
     <div className="announcement-detail">

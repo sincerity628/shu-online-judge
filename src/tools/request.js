@@ -4,7 +4,7 @@ import { base_url } from './base_url';
 // create anaxios instance
 const request = axios.create({
   baseURL: base_url,
-  timeout: 5000 //请求超时时间
+  // timeout: 5000 //请求超时时间
 });
 
 // axios请求拦截器

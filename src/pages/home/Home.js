@@ -73,14 +73,14 @@ const Home = () => {
     return () => { unmounted = true; };
     }, [tags]);
 
-    const chooseTag = (id) => {
-      setSearchTag(id);
-    }
+  const chooseTag = (id) => {
+    setSearchTag(id);
+  }
 
-    const handlePageChange = (e, { activePage }) => {
-      console.log(activePage);
-      setPage(activePage);
-    }
+  const handlePageChange = (e, { activePage }) => {
+    console.log(activePage);
+    setPage(activePage);
+  }
 
   return (
     <div className="home">
