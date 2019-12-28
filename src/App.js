@@ -3,16 +3,19 @@ import { BrowserRouter } from 'react-router-dom';
 import Router from './tools/Router';
 import Navbar from './components/Navbar';
 import UserContextProvider from './contexts/UserContext';
+import UIContextProvider from './contexts/UIContext';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <UserContextProvider>
-          <Navbar  />
-          <div className="box">
-            <Router />
-          </div>
+          <UIContextProvider>
+            <Navbar  />
+            <div className="box">
+              <Router />
+            </div>
+          </UIContextProvider>  
         </UserContextProvider>
       </div>
     </BrowserRouter>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Segment } from 'semantic-ui-react';
 import DoughnutChart from '../../components/DoughnutChart';
 import { UserContext } from '../../contexts/UserContext';
+import { UIContext } from '../../contexts/UIContext';
 import api from '../../tools/api';
 import './submission.css';
 
@@ -27,18 +28,22 @@ const options = {
 
 const Submission = () => {
   const { dispatch } = useContext(UserContext);
+  const { toggleDimmer } = useContext(UIContext);
 
   const [user, setUser] = useState({});
   const [data, setData] = useState(initData);
   const [total, setTotal] = useState(0);
   const [done, setDone] = useState(0);
 
-  useEffect(() => {
+  useEffect(async () => {
     let unmounted = false;
+    toggleDimmer(true);
+    console.log('sa');
     api
       .getUserInfo()
       .then(res => {
         if(!unmounted && res.status === 200) {
+          toggleDimmer(false);
           setUser(res.data);
           setDone(res.data.acCount);
           dispatch({ type: 'UPDATE', user });
@@ -48,6 +53,7 @@ const Submission = () => {
       .getProblems()
       .then(res => {
         if(!unmounted && res.status === 200) {
+          toggleDimmer(false);
           setTotal(res.data.total);
           setData({
             labels: ['已完成', '剩余题目'],
@@ -59,9 +65,8 @@ const Submission = () => {
           });
         }
       })
-
     return () => { unmounted = true; };
-  }, [done, dispatch, user]);
+  }, []);
 
   return (
     <div className="submission">

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Grid, Input, Pagination, Dimmer } from 'semantic-ui-react';
+import { UIContext } from '../../contexts/UIContext';
+import { Grid, Input, Pagination } from 'semantic-ui-react';
 import ProblemTable from '../../components/home/ProblemTable';
 import Announcement from '../../components/home/Announcement';
 import TagGroup from '../../components/home/TagGroup';
@@ -9,6 +10,7 @@ import './home.css';
 
 const Home = () => {
   const history = useHistory();
+  const { toggleDimmer } = useContext(UIContext);
 
   const [problems, setProblems] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -17,35 +19,38 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState('');
   const [searchTag, setSearchTag] = useState('');
-  const [maskActive, setMaskActive] = useState(false);
 
   useEffect(() => {
-    let unmounted = false;
-    setMaskActive(true);
-    api
-      .getProblems({
-        page: page - 1,
-        size: 20,
-        title: searchText,
-        tags: searchTag
-      })
-      .then(res => {
-        if(!unmounted) {
-          if(res.status === 200) {
-            setMaskActive(false);
-            setProblems(res.data.list);
-            setTotal(res.data.total);
-          } else {
-            setMaskActive(false);
-          }
-        }
-      })
-      .catch(error => {
-        history.push('/internet-error');
-      })
+    const getProblems = () => {
+      toggleDimmer(true);
 
-      return () => { unmounted = true; };
-  }, [page, searchText, searchTag, history]);
+      api
+        .getProblems({
+          page: page - 1,
+          size: 20,
+          title: searchText,
+          tags: searchTag
+        })
+        .then(res => {
+          if(!unmounted) {
+            if(res.status === 200) {
+              toggleDimmer(false);
+              setProblems(res.data.list);
+              setTotal(res.data.total);
+            } else {
+              toggleDimmer(false);
+            }
+          }
+        })
+        .catch(error => {
+          history.push('/internet-error');
+        })
+    }
+
+    let unmounted = false;
+    getProblems();
+    return () => { unmounted = true; };
+  }, [history, page, searchTag, searchText]);
 
   // get the tags & announcements
   useEffect(() => {
@@ -84,7 +89,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Dimmer active={maskActive} page inverted></Dimmer>
       <Grid columns={2}>
         <Grid.Row>
 
