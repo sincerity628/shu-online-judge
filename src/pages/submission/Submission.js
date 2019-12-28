@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Segment } from 'semantic-ui-react';
 import DoughnutChart from '../../components/DoughnutChart';
+import { UserContext } from '../../contexts/UserContext';
 import api from '../../tools/api';
 import './submission.css';
 
@@ -25,18 +26,28 @@ const options = {
 }
 
 const Submission = () => {
+  const { dispatch } = useContext(UserContext);
+
+  const [user, setUser] = useState({});
   const [data, setData] = useState(initData);
   const [total, setTotal] = useState(0);
   const [done, setDone] = useState(0);
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
-    setDone(user.acCount);
+    let unmounted = false;
+    api
+      .getUserInfo()
+      .then(res => {
+        if(!unmounted && res.status === 200) {
+          setUser(res.data);
+          setDone(res.data.acCount);
+          dispatch({ type: 'UPDATE', user });
+        }
+      })
     api
       .getProblems()
       .then(res => {
-        if(res.status === 200) {
+        if(!unmounted && res.status === 200) {
           setTotal(res.data.total);
           setData({
             labels: ['已完成', '剩余题目'],
@@ -48,7 +59,9 @@ const Submission = () => {
           });
         }
       })
-  }, [done]);
+
+    return () => { unmounted = true; };
+  }, [done, dispatch, user]);
 
   return (
     <div className="submission">
