@@ -18,6 +18,7 @@ const Home = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState('');
+  const [text, setText] = useState('');
   const [searchTag, setSearchTag] = useState('');
 
   useEffect(() => {
@@ -93,10 +94,21 @@ const Home = () => {
         <Grid.Row>
 
           <Grid.Column mobile={16} tablet={12} computer={12}>
-            <Input className="search-input" icon="search"
-              placeholder="search..." value={searchText}
-              onChange={e => setSearchText(e.target.value)} />
-
+            <form onSubmit={e => {
+              e.preventDefault();
+              setSearchText(text);
+            }}>
+              <Input className="search-input" icon="search"
+                placeholder="输入后按回车搜索" value={text}
+                onChange={e => {
+                  if(e.target.value === '') {
+                    setSearchText(e.target.value);
+                    setText('');
+                  } else {
+                    setText(e.target.value)
+                  }
+                }} />
+            </form>
             <ProblemTable problems={problems} />
 
             <div className="home-pagination">
