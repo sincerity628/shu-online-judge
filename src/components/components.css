@@ -39,3 +39,10 @@
   cursor: pointer;
   background-color: #d6d6d6 !important;
 }
+
+/* Problem Description */
+@media only screen and (max-width: 767px) {
+  .problem-description {
+    margin-top: 20px;
+  }
+}

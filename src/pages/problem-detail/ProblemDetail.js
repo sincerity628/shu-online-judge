@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
+import ProblemDescription from '../../components/problem/ProblemDescription';
 import TagGroup from '../../components/TagGroup';
 import api from '../../tools/api';
 import './problem-detail.css';
@@ -16,7 +17,7 @@ const ProblemDetail = (props) => {
       .getProblem(props.match.params.id)
       .then(res => {
         if(res.status === 200) {
-          console.log(res.data);
+          setProblem(res.data);
           setTags(res.data.tagList);
         }
       })
@@ -36,10 +37,11 @@ const ProblemDetail = (props) => {
       <h1>ProblemDetail</h1>
       <Grid>
         <Grid.Row>
-          <Grid.Column mobile={16} table={12} computer={12}>
+          <Grid.Column mobile={16} tablet={12} computer={12}>
 
           </Grid.Column>
-          <Grid.Column mobile={16} table={4} computer={4}>
+          <Grid.Column mobile={16} tablet={4} computer={4}>
+            <ProblemDescription problem={problem}  />
             <TagGroup tags={tags} chooseTag={chooseTag} />
           </Grid.Column>
         </Grid.Row>
