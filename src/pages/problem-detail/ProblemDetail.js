@@ -1,24 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Grid, Menu } from 'semantic-ui-react';
 import ProblemContent from '../../components/problem/ProblemContent';
 import ProblemDescription from '../../components/problem/ProblemDescription';
 import TagGroup from '../../components/TagGroup';
+import { UIContext } from '../../contexts/UIContext';
 import api from '../../tools/api';
 import './problem-detail.css';
 
 const ProblemDetail = (props) => {
   const history = useHistory();
+  const { toggleDimmer } = useContext(UIContext);
 
   const [activeItem, setActiveItem] = useState('题面');
   const [problem, setProblem] = useState({});
   const [tags, setTags] = useState([]);
+  const [dimmer, setDimmer] = useState(false);
 
   useEffect(() => {
+    toggleDimmer(dimmer);
+  }, [toggleDimmer, dimmer]);
+
+  useEffect(() => {
+    setDimmer(true);
     api
       .getProblem(props.match.params.id)
       .then(res => {
         if(res.status === 200) {
+          setDimmer(false);
           setProblem(res.data);
           setTags(res.data.tagList);
         }
