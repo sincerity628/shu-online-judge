@@ -46,3 +46,41 @@
     margin-top: 20px;
   }
 }
+
+/* Problem Content */
+.sampleIO {
+  margin-top: 20px;
+  border: 1px solid #d4d4d5;
+}
+
+.sampleIO p {
+  margin: 0;
+  padding: 5px;
+  font-weight: 600;
+}
+
+.io {
+  margin: 0;
+  padding: 5px;
+  background-color: #f2f2f2;
+  color: #6c1852;
+}
+
+.io:hover {
+  cursor: pointer;
+}
+
+.io-tooltip-container {
+  display: none;
+  float: right;
+}
+
+.io-tooltip {
+  bottom: 35px;
+  right: 400px;
+  margin: 0 !important;
+}
+
+.father:hover .io-tooltip-container {
+  display: block;
+}

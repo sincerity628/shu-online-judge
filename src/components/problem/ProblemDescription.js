@@ -3,8 +3,7 @@ import { Segment, Label } from 'semantic-ui-react';
 import '../components.css';
 
 const ProblemDescription = ({ problem }) => {
-  console.log(problem);
-
+  
   const calculateDifficulty = (difficulty) => {
     switch(difficulty) {
       case 'HIGH':
