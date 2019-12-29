@@ -32,54 +32,49 @@ const Submission = () => {
   const { dispatch } = useContext(UserContext);
   const { toggleDimmer } = useContext(UIContext);
   const [data, setData] = useState(initData);
-  const [user, setUser] = useState({});
   const [total, setTotal] = useState(0);
   const [done, setDone] = useState(0);
   const [dimmer, setDimmer] = useState(false);
 
   useEffect(() => {
-    let unmounted = false;
-    console.log("sa");
+    toggleDimmer(dimmer);
+  }, [dimmer, toggleDimmer]);
 
-    const getUserInfo = () => {
-      toggleDimmer(true);
-      api.getUserInfo().then(res => {
+  useEffect(() => {
+    let unmounted = false;
+    setDimmer(true);
+
+    api.getUserInfo().then(res => {
+      if (!unmounted && res.status === 200) {
+        setDimmer(false);
+        let userResult = res.data;
+        setDone(userResult.acCount);
+        dispatch({ type: 'UPDATE', userResult });
+      }
+    });
+
+    api
+      .getProblems()
+      .then(res => {
         if (!unmounted && res.status === 200) {
-          toggleDimmer(false);
-          setUser(res.data);
-          setDone(res.data.acCount);
-          dispatch({ type: 'UPDATE', user });
+          setDimmer(false);
+          setTotal(res.data.total);
+          setData({
+            labels: ["已完成", "剩余题目"],
+            datasets: [
+              {
+                label: "题目数量",
+                data: [done, res.data.total - done],
+                backgroundColor: ["#12cad6", "#fa4b4b"]
+              }
+            ]
+          });
         }
       });
-    }
-
-    const getProblems = () => {
-      api
-        .getProblems()
-        .then(res => {
-          if (!unmounted && res.status === 200) {
-              toggleDimmer(false);
-            setTotal(res.data.total);
-            setData({
-              labels: ["已完成", "剩余题目"],
-              datasets: [
-                {
-                  label: "题目数量",
-                  data: [done, res.data.total - done],
-                  backgroundColor: ["#12cad6", "#fa4b4b"]
-                }
-              ]
-            });
-          }
-        });
-    }
-
-    getUserInfo();
-    getProblems();
     return () => {
       unmounted = true;
     };
-  }, []);
+  }, [dispatch, done]);
 
   return (
     <div className="submission">
