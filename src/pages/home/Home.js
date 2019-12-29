@@ -34,10 +34,6 @@ const Home = (props) => {
   }, [props]);
 
   useEffect(() => {
-    toggleDimmer(dimmer);
-  }, [toggleDimmer, dimmer]);
-
-  useEffect(() => {
     api
       .getTags()
       .then(res => {
@@ -50,6 +46,10 @@ const Home = (props) => {
         }
       })
   }, [searchTag]);
+
+  useEffect(() => {
+    toggleDimmer(dimmer);
+  }, [toggleDimmer, dimmer]);
 
   useEffect(() => {
     const getProblems = () => {
@@ -121,7 +121,7 @@ const Home = (props) => {
       <Grid columns={2}>
         <Grid.Row>
 
-          <Grid.Column mobile={16} tablet={12} computer={12}>
+          <Grid.Column mobile={16} tablet={11} computer={11}>
             <form onSubmit={e => {
               e.preventDefault();
               setSearchText(text);
@@ -138,7 +138,7 @@ const Home = (props) => {
                 }} />
             </form>
 
-            { searchTag && <Segment className="tagHolder">{ tagName }</Segment> }
+            { tagName && <Segment className="tagHolder">{ tagName }</Segment> }
 
             <ProblemTable problems={problems} />
 
@@ -153,7 +153,7 @@ const Home = (props) => {
 
           </Grid.Column>
 
-          <Grid.Column mobile={16} tablet={4} computer={4}>
+          <Grid.Column mobile={16} tablet={5} computer={5}>
             <div>
               <Announcement announcements={announcements} />
               <TagGroup tags={tags} chooseTag={chooseTag} />

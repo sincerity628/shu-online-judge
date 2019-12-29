@@ -4,9 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import '../components.css';
 
 const ProblemContent = ({ problem }) => {
-  console.log(problem)
   const [sampleList, setSampleList] = useState([]);
-  const [copy, setCopy] = useState(false);
 
   useEffect(() => {
     if(problem.sampleIO) {
@@ -29,8 +27,7 @@ const ProblemContent = ({ problem }) => {
       { sampleList.map((sample, index) => (
         <div className="sampleIO" key={index}>
           <p><code>input</code></p>
-          <CopyToClipboard text={sample.input}
-            onCopy={() => setCopy(true)}>
+          <CopyToClipboard text={sample.input}>
             <span className="father">
               <div className="io-tooltip-container">
                 <Label pointing="below" color="black"
@@ -43,8 +40,7 @@ const ProblemContent = ({ problem }) => {
           </CopyToClipboard>
 
           <p><code>output</code></p>
-          <CopyToClipboard text={sample.output}
-            onCopy={() => setCopy(true)}>
+          <CopyToClipboard text={sample.output}>
             <span className="father">
               <div className="io-tooltip-container">
                 <Label pointing="below" color="black"

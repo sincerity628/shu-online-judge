@@ -53,16 +53,16 @@ const ProblemDetail = (props) => {
       { activeItem === '题面'? (
         <Grid>
           <Grid.Row>
-            <Grid.Column mobile={16} tablet={12} computer={12}>
+            <Grid.Column mobile={16} tablet={11} computer={11}>
               <ProblemContent problem={problem} />
             </Grid.Column>
-            <Grid.Column mobile={16} tablet={4} computer={4}>
+            <Grid.Column mobile={16} tablet={5} computer={5}>
               <ProblemDescription problem={problem}  />
               <TagGroup tags={tags} chooseTag={chooseTag} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column mobile={16} tablet={12} computer={12}>
+            <Grid.Column mobile={16} tablet={11} computer={11}>
               <div>code form</div>
             </Grid.Column>
           </Grid.Row>
