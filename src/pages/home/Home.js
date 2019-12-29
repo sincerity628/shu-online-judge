@@ -42,6 +42,8 @@ const Home = (props) => {
           let tag = tags.filter(tag => tag.id === searchTag);
           if(tag[0]) {
             setTagName(tag[0].name);
+          } else {
+            setTagName(null);
           }
         }
       })

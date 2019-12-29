@@ -4,6 +4,7 @@ import { Grid, Menu } from 'semantic-ui-react';
 import ProblemContent from '../../components/problem/ProblemContent';
 import ProblemDescription from '../../components/problem/ProblemDescription';
 import TagGroup from '../../components/TagGroup';
+import CodeForm from '../../components/problem/CodeForm';
 import { UIContext } from '../../contexts/UIContext';
 import api from '../../tools/api';
 import './problem-detail.css';
@@ -27,6 +28,7 @@ const ProblemDetail = (props) => {
       .getProblem(props.match.params.id)
       .then(res => {
         if(res.status === 200) {
+          console.log(res.data);
           setDimmer(false);
           setProblem(res.data);
           setTags(res.data.tagList);
@@ -41,6 +43,10 @@ const ProblemDetail = (props) => {
     } else {
       history.push('/tag/0');
     }
+  }
+
+  const submitCode = (result) => {
+    console.log(result);
   }
 
   return (
@@ -71,13 +77,13 @@ const ProblemDetail = (props) => {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column mobile={16} tablet={11} computer={11}>
-              <div>code form</div>
+            <Grid.Column mobile={16} tablet={16} computer={16}>
+              <CodeForm submitCode={submitCode} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       ) : (
-        <div>submission</div>
+        <h5>submmit</h5>
       ) }
 
     </div>
