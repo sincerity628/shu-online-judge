@@ -20,10 +20,15 @@ const Home = () => {
   const [searchText, setSearchText] = useState('');
   const [text, setText] = useState('');
   const [searchTag, setSearchTag] = useState('');
+  const [dimmer, setDimmer] = useState(false);
+
+  useEffect(() => {
+    toggleDimmer(dimmer);
+  }, [toggleDimmer, dimmer]);
 
   useEffect(() => {
     const getProblems = () => {
-      toggleDimmer(true);
+      setDimmer(true);
 
       api
         .getProblems({
@@ -35,11 +40,11 @@ const Home = () => {
         .then(res => {
           if(!unmounted) {
             if(res.status === 200) {
-              toggleDimmer(false);
+              setDimmer(false);
               setProblems(res.data.list);
               setTotal(res.data.total);
             } else {
-              toggleDimmer(false);
+              setDimmer(false);
             }
           }
         })
@@ -69,15 +74,13 @@ const Home = () => {
     api
       .getAllAnnouncements()
       .then(res => {
-        if(!unmounted) {
-          if(res.status === 200) {
-            setAnnouncements(res.data);
-          }
+        if(!unmounted && res.status === 200) {
+          setAnnouncements(res.data);
         }
       })
 
     return () => { unmounted = true; };
-    }, [tags]);
+    }, []);
 
   const chooseTag = (id) => {
     setSearchTag(id);
