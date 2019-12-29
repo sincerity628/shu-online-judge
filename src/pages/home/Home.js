@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UIContext } from '../../contexts/UIContext';
-import { Grid, Input, Pagination } from 'semantic-ui-react';
+import { Grid, Input, Pagination, Segment } from 'semantic-ui-react';
 import ProblemTable from '../../components/home/ProblemTable';
 import Announcement from '../../components/home/Announcement';
-import TagGroup from '../../components/home/TagGroup';
+import TagGroup from '../../components/TagGroup';
 import api from '../../tools/api';
 import './home.css';
 
-const Home = () => {
+const Home = (props) => {
   const history = useHistory();
   const { toggleDimmer } = useContext(UIContext);
 
@@ -20,11 +20,36 @@ const Home = () => {
   const [searchText, setSearchText] = useState('');
   const [text, setText] = useState('');
   const [searchTag, setSearchTag] = useState('');
+  const [tagName, setTagName] = useState('');
   const [dimmer, setDimmer] = useState(false);
+
+  // check tag id
+  useEffect(() => {
+    let path = props.match.path;
+    if(path === '/tag/:id' && props.match.params.id !== 0) {
+      setSearchTag(props.match.params.id);
+    } else {
+      setSearchTag('');
+    }
+  }, [props]);
 
   useEffect(() => {
     toggleDimmer(dimmer);
   }, [toggleDimmer, dimmer]);
+
+  useEffect(() => {
+    api
+      .getTags()
+      .then(res => {
+        if(res.status === 200) {
+          let tags = res.data;
+          let tag = tags.filter(tag => tag.id === searchTag);
+          if(tag[0]) {
+            setTagName(tag[0].name);
+          }
+        }
+      })
+  }, [searchTag]);
 
   useEffect(() => {
     const getProblems = () => {
@@ -112,6 +137,9 @@ const Home = () => {
                   }
                 }} />
             </form>
+
+            { searchTag && <Segment className="tagHolder">{ tagName }</Segment> }
+
             <ProblemTable problems={problems} />
 
             <div className="home-pagination">

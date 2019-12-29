@@ -1,6 +1,6 @@
 import React from 'react';
 import { Segment, Label } from 'semantic-ui-react';
-import "../components.css";
+import "./components.css";
 
 const TagGroup = ({ tags, chooseTag }) => {
   return (
@@ -12,7 +12,7 @@ const TagGroup = ({ tags, chooseTag }) => {
         </Segment>
         <Segment attached="bottom">
           <Label className="tag-label" onClick={() => chooseTag('')}>
-            全部
+            全部题目
           </Label>
           { tags.map(tag => (
             <Label onClick={() => chooseTag(tag.id)}

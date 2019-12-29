@@ -20,6 +20,7 @@ const Router = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route path="/tag/:id" component={Home} />
       <Route path="/internet-error" component={InternetError} />
       <Route path="/announcement/:id" component={AnnouncementDetail} />
       <Route path="/signin" component={Signin} />
