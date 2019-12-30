@@ -76,8 +76,8 @@ const Navbar = () => {
 
               <Dropdown.Divider />
 
-              <Dropdown.Item as={Link} to="/profile">个人主页</Dropdown.Item>
-              <Dropdown.Item as={Link} to="/submission">我的提交</Dropdown.Item>
+              <Dropdown.Item as={Link} to={`/profile/${user.id}`}>个人主页</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/my-submission">我的提交</Dropdown.Item>
               <Dropdown.Item as={Link} to="/setting">密保设置</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Header>登出</Dropdown.Header>

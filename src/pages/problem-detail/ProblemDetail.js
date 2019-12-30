@@ -6,6 +6,7 @@ import ProblemDescription from '../../components/problem/ProblemDescription';
 import TagGroup from '../../components/TagGroup';
 import CodeForm from '../../components/problem/CodeForm';
 import ResultTable from '../../components/problem/ResultTable';
+import SubmissionTable from '../../components/submission/SubmissionTable';
 import { UIContext } from '../../contexts/UIContext';
 import api from '../../tools/api';
 import './problem-detail.css';
@@ -21,9 +22,11 @@ const ProblemDetail = (props) => {
 
   const [activeItem, setActiveItem] = useState('题面');
   const [problem, setProblem] = useState({});
+  const [submissions, setSubmissions] = useState([]);
   const [tags, setTags] = useState([]);
   const [error, setError] = useState(initError);
   const [result, setResult] = useState(null);
+  const [update, setUpdate] = useState(false);
   const [dimmer, setDimmer] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
 
@@ -33,8 +36,9 @@ const ProblemDetail = (props) => {
 
   useEffect(() => {
     setDimmer(true);
+    let id = props.match.params.id;
     api
-      .getProblem(props.match.params.id)
+      .getProblem(id)
       .then(res => {
         if(res.status === 200) {
           console.log(res.data);
@@ -44,7 +48,18 @@ const ProblemDetail = (props) => {
         }
       })
 
-  }, [props.match.params.id]);
+  }, [props]);
+
+  useEffect(() => {
+    let id = props.match.params.id;
+    api
+      .getPracticeSubmission(id)
+      .then(res => {
+        if(res.status === 200) {
+          setSubmissions(res.data);
+        }
+      })
+  }, [props, update]);
 
   const chooseTag = (tag) => {
     if(tag !== '') {
@@ -58,11 +73,12 @@ const ProblemDetail = (props) => {
     setBtnLoading(true);
     result.id = props.match.params.id;
     api
-      .createSubmission(result)
+      .createPracticeSubmission(result)
       .then(res => {
         if(res.status === 200) {
           setBtnLoading(false);
           setResult(res.data);
+          setUpdate(!update);
         } else {
           setBtnLoading(false);
           setError({
@@ -83,9 +99,12 @@ const ProblemDetail = (props) => {
           onClick={ () => setActiveItem('题面') }
           />
         <Menu.Item
-          name="提交"
-          active={ activeItem === '提交' }
-          onClick={ () => setActiveItem('提交') }
+          name="我的提交"
+          active={ activeItem === '我的提交' }
+          onClick={ () => {
+            setActiveItem('我的提交');
+            setResult(null);
+          } }
          />
       </Menu>
 
@@ -116,7 +135,7 @@ const ProblemDetail = (props) => {
           </Grid.Row>
         </Grid>
       ) : (
-        <h5>submmit</h5>
+        <SubmissionTable submissions={submissions} />
       ) }
 
     </div>

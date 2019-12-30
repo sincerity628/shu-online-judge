@@ -114,7 +114,6 @@ const Home = (props) => {
   }
 
   const handlePageChange = (e, { activePage }) => {
-    console.log(activePage);
     setPage(activePage);
   }
 

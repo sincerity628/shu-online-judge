@@ -28,7 +28,7 @@ const options = {
   }
 };
 
-const Submission = () => {
+const MySubmission = () => {
   const { dispatch } = useContext(UserContext);
   const { toggleDimmer } = useContext(UIContext);
   const [data, setData] = useState(initData);
@@ -44,40 +44,35 @@ const Submission = () => {
     let unmounted = false;
     setDimmer(true);
 
-    api.getUserInfo().then(res => {
-      if (!unmounted && res.status === 200) {
-        setDimmer(false);
-        let userResult = res.data;
-        setDone(userResult.acCount);
-        dispatch({ type: 'UPDATE', userResult });
-      }
-    });
-
     api
-      .getProblems()
+      .getUserInfo()
       .then(res => {
         if (!unmounted && res.status === 200) {
           setDimmer(false);
-          setTotal(res.data.total);
+          let userResult = res.data;
+          setDone(userResult.acCount);
+          setTotal(userResult.submitCount)
+          dispatch({ type: 'UPDATE', userResult });
           setData({
-            labels: ["已完成", "剩余题目"],
+            labels: ["accepted", "failed"],
             datasets: [
               {
                 label: "题目数量",
-                data: [done, res.data.total - done],
+                data: [done, userResult.submitCount - done],
                 backgroundColor: ["#12cad6", "#fa4b4b"]
               }
             ]
           });
         }
       });
+
     return () => {
       unmounted = true;
     };
   }, [dispatch, done]);
 
   return (
-    <div className="submission">
+    <div className="my-submission">
       <Segment attached="top">
         <h5>做题情况</h5>
       </Segment>
@@ -91,4 +86,4 @@ const Submission = () => {
   );
 };
 
-export default Submission;
+export default MySubmission;

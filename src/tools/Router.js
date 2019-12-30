@@ -13,7 +13,8 @@ import Profile from '../pages/profile/Profile';
 import Rank from '../pages/rank/Rank';
 import Setting from '../pages/setting/Setting';
 import Status from '../pages/status/Status';
-import Submission from '../pages/submission/Submission';
+import MySubmission from '../pages/submission/MySubmission';
+import SubmissionDetail from '../pages/submission/SubmissionDetail';
 import Tests from '../pages/test/Tests';
 
 const Router = () => {
@@ -29,11 +30,12 @@ const Router = () => {
       <Route path="/forget-password" component={ForgetPassword} />
       <Route path="/groups" component={Groups} />
       <Route path="/problem/:id" component={ProblemDetail} />
-      <Route path="/profile" component={Profile} />
+      <Route path="/profile/:id" component={Profile} />
       <Route path="/rank" component={Rank} />
       <Route path="/setting" component={Setting} />
       <Route path="/status" component={Status} />
-      <Route path="/submission" component={Submission} />
+      <Route path="/my-submission" component={MySubmission} />
+      <Route path="/submission/:id" component={SubmissionDetail} />
       <Route path="/tests" component={Tests} />
     </Switch>
   );

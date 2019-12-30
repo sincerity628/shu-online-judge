@@ -19,23 +19,23 @@ const initError = {
 
 const languages = [{
   key: 0,
-  text: 'c',
+  text: 'C',
   value: 'c'
 }, {
   key: 1,
-  text: 'cpp',
+  text: 'C++',
   value: 'cpp'
 }, {
   key: 2,
-  text: 'java',
+  text: 'Java',
   value: 'java'
 }, {
   key: 3,
-  text: 'python2',
+  text: 'Python2',
   value: 'python2'
 }, {
   key: 4,
-  text: 'python3',
+  text: 'Python3',
   value: 'python3'
 }];
 
