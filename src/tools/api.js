@@ -13,5 +13,11 @@ export default {
   // announcement
   getAllAnnouncements: () => request.get('/announcements'),
   getAnnouncement: (id) => request.get(`/announcements/${id}`),
+  // commit
+  createSubmission: (result) => request.post(`/problems/${result.id}/submissions`, {
+    code: result.code,
+    language: result.language
+  }),
+
 
 }

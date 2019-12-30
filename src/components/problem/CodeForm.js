@@ -12,6 +12,11 @@ const initCommit = {
   code: ''
 };
 
+const initError = {
+  isError: false,
+  content: ''
+};
+
 const languages = [{
   key: 0,
   text: 'c',
@@ -34,12 +39,12 @@ const languages = [{
   value: 'python3'
 }];
 
-const CodeForm = ({ submitCode }) => {
+const CodeForm = ({ submitCode, btnLoading, setError }) => {
   const [commit, setCommit] = useState(initCommit);
-  const [mode, setMode] = useState('python');
-  const [btnLoading, setBtnLoading] = useState(false);
+  const [mode, setMode] = useState('java');
 
   const handleCodeChange = (code) => {
+    setError(initError);
     setCommit({
       ...commit,
       code: code
@@ -47,29 +52,32 @@ const CodeForm = ({ submitCode }) => {
   }
 
   const handleLanChange = (e, { value }) => {
+    setError(initError);
     setCommit({
       ...commit,
       language: value.toUpperCase()
     });
-    if(value === 'java') {
-      setMode('java');
-    } else {
+    if(value === 'python') {
       setMode('python');
     }
   }
 
   const handleSubmit = () => {
     if(commit.code === '') {
-      alert('code is empty.');
+      setError({
+        isError: true,
+        content: '提交代码长度不能为0'
+      });
       return;
     }
     if(commit.language === '') {
-      alert('language is empty.');
+      setError({
+        isError: true,
+        content: '请选择提交代码的语言'
+      });
       return;
     }
-    setBtnLoading(true);
     submitCode(commit);
-    setBtnLoading(false);
   }
 
   return (

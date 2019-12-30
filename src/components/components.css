@@ -77,7 +77,7 @@
 
 .io-tooltip {
   bottom: 35px;
-  right: 400px;
+  right: 300px;
   margin: 0 !important;
 }
 
@@ -95,4 +95,9 @@
 .code-editor {
   width: 100% !important;
   height: 300px !important;
+}
+
+/* Result Table */
+.result-table {
+  margin-top: 20px;
 }

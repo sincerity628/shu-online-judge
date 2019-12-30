@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Grid, Menu } from 'semantic-ui-react';
+import { Grid, Menu, Message } from 'semantic-ui-react';
 import ProblemContent from '../../components/problem/ProblemContent';
 import ProblemDescription from '../../components/problem/ProblemDescription';
 import TagGroup from '../../components/TagGroup';
 import CodeForm from '../../components/problem/CodeForm';
+import ResultTable from '../../components/problem/ResultTable';
 import { UIContext } from '../../contexts/UIContext';
 import api from '../../tools/api';
 import './problem-detail.css';
+
+const initError = {
+  isError: false,
+  content: ''
+};
 
 const ProblemDetail = (props) => {
   const history = useHistory();
@@ -16,7 +22,10 @@ const ProblemDetail = (props) => {
   const [activeItem, setActiveItem] = useState('题面');
   const [problem, setProblem] = useState({});
   const [tags, setTags] = useState([]);
+  const [error, setError] = useState(initError);
+  const [result, setResult] = useState(null);
   const [dimmer, setDimmer] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   useEffect(() => {
     toggleDimmer(dimmer);
@@ -46,7 +55,22 @@ const ProblemDetail = (props) => {
   }
 
   const submitCode = (result) => {
-    console.log(result);
+    setBtnLoading(true);
+    result.id = props.match.params.id;
+    api
+      .createSubmission(result)
+      .then(res => {
+        if(res.status === 200) {
+          setBtnLoading(false);
+          setResult(res.data);
+        } else {
+          setBtnLoading(false);
+          setError({
+            isError: true,
+            content: '系统错误'
+          });
+        }
+      })
   }
 
   return (
@@ -78,7 +102,16 @@ const ProblemDetail = (props) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column mobile={16} tablet={16} computer={16}>
-              <CodeForm submitCode={submitCode} />
+              { error.isError && (
+                <Message negative>
+                  <Message.Header>提交失败</Message.Header>
+                  <p>{ error.content }</p>
+                </Message>
+              ) }
+              <CodeForm submitCode={submitCode} btnLoading={btnLoading}
+                setError={setError} />
+
+              { result && <ResultTable result={result} /> }
             </Grid.Column>
           </Grid.Row>
         </Grid>
