@@ -25,7 +25,6 @@ const SubmissionDetail = (props) => {
           setDimmer(false);
           setSubmission(res.data);
           setResultDetail(JSON.parse(res.data.resultDetail));
-          console.log(JSON.parse(res.data.resultDetail));
         } else {
           setDimmer(false);
         }
