@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Label } from 'semantic-ui-react';
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import ClickToCopy from '../../components/public/ClickToCopy';
 import '../components.css';
 
 const ProblemContent = ({ problem }) => {
@@ -27,30 +26,12 @@ const ProblemContent = ({ problem }) => {
       { sampleList.map((sample, index) => (
         <div className="sampleIO" key={index}>
           <p><code>input</code></p>
-          <CopyToClipboard text={sample.input}>
-            <span className="father">
-              <div className="io-tooltip-container">
-                <Label pointing="below" color="black"
-                  className="io-tooltip" size="large">
-                  点击复制
-                </Label>
-              </div>
-              <pre className="io">{ sample.input }</pre>
-            </span>
-          </CopyToClipboard>
+
+          <ClickToCopy copyContent={sample.input} />
 
           <p><code>output</code></p>
-          <CopyToClipboard text={sample.output}>
-            <span className="father">
-              <div className="io-tooltip-container">
-                <Label pointing="below" color="black"
-                  className="io-tooltip" size="large">
-                  点击复制
-                </Label>
-              </div>
-              <pre className="io">{ sample.output }</pre>
-            </span>
-          </CopyToClipboard>
+
+          <ClickToCopy copyContent={sample.output} />
         </div>
       )) }
     </div>

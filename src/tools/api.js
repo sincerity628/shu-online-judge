@@ -14,6 +14,7 @@ export default {
   getAllAnnouncements: () => request.get('/announcements'),
   getAnnouncement: (id) => request.get(`/announcements/${id}`),
   // submission or commit
+  getSubmission: (id) => request.get(`/submissions/${id}`),
   getPracticeSubmission: (id) => request.get(`/problems/${id}/submissions`),
   createPracticeSubmission: (result) => request.post(`/problems/${result.id}/submissions`, {
     code: result.code,

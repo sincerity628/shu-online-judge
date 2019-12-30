@@ -41,7 +41,6 @@ const ProblemDetail = (props) => {
       .getProblem(id)
       .then(res => {
         if(res.status === 200) {
-          console.log(res.data);
           setDimmer(false);
           setProblem(res.data);
           setTags(res.data.tagList);
