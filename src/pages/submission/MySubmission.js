@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Segment } from "semantic-ui-react";
-import DoughnutChart from "../../components/DoughnutChart";
+import DoughnutChart from "../../components/data-visualization/DoughnutChart";
 import { UserContext } from "../../contexts/UserContext";
 import { UIContext } from "../../contexts/UIContext";
 import api from "../../tools/api";
@@ -54,7 +54,7 @@ const MySubmission = () => {
           setTotal(userResult.submitCount)
           dispatch({ type: 'UPDATE', userResult });
           setData({
-            labels: ["accepted", "failed"],
+            labels: ["通过", "未通过"],
             datasets: [
               {
                 label: "题目数量",

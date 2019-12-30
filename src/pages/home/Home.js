@@ -4,7 +4,7 @@ import { UIContext } from '../../contexts/UIContext';
 import { Grid, Input, Pagination, Segment } from 'semantic-ui-react';
 import ProblemTable from '../../components/home/ProblemTable';
 import Announcement from '../../components/home/Announcement';
-import TagGroup from '../../components/TagGroup';
+import TagGroup from '../../components/public/TagGroup';
 import api from '../../tools/api';
 import './home.css';
 

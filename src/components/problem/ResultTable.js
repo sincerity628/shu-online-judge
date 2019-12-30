@@ -1,26 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
+import ResultCell from '../public/ResultCell';
 import '../components.css';
 
 const ResultTable = ({ result }) => {
-  const [resultType, setResultType] = useState('');
-
-  useEffect(() => {
-    if(result.result === 'ACCEPTED') {
-      setResultType('positive');
-    } else if (
-      result.result === 'CPU_TIME_LIMIT_EXCEEDED' ||
-      result.result === 'TIME_LIMIT_EXCEEDED' ||
-      result.result === 'MEMORY_LIMIT_EXCEEDED'
-    ) {
-      setResultType('warning');
-    } else {
-      setResultType('error');
-    }
-  }, [result])
-
-  console.log(result);
   return (
     <div className="result-table">
       <Table celled textAlign="center">
@@ -43,13 +27,7 @@ const ResultTable = ({ result }) => {
             </Table.Cell>
             <Table.Cell>{ result.language }</Table.Cell>
             <Table.Cell>{ result.createDate }</Table.Cell>
-            <Table.Cell
-              positive={ resultType === 'positive' }
-              error={ resultType === 'error' }
-              warning={resultType === 'warning'}
-            >
-              <b>{ result.result }</b>
-            </Table.Cell>
+            <ResultCell result={result.result} />
             <Table.Cell>{ result.duration? result.duration : 'N/A' }</Table.Cell>
           </Table.Row>
         </Table.Body>

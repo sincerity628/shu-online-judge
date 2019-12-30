@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Grid, Menu, Message } from 'semantic-ui-react';
 import ProblemContent from '../../components/problem/ProblemContent';
 import ProblemDescription from '../../components/problem/ProblemDescription';
-import TagGroup from '../../components/TagGroup';
+import TagGroup from '../../components/public/TagGroup';
 import CodeForm from '../../components/problem/CodeForm';
 import ResultTable from '../../components/problem/ResultTable';
 import SubmissionTable from '../../components/submission/SubmissionTable';

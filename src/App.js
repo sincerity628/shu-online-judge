@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './tools/Router';
-import Navbar from './components/Navbar';
+import Navbar from './components/public/Navbar';
 import UserContextProvider from './contexts/UserContext';
 import UIContextProvider from './contexts/UIContext';
 
@@ -15,7 +15,7 @@ function App() {
             <div className="box">
               <Router />
             </div>
-          </UIContextProvider>  
+          </UIContextProvider>
         </UserContextProvider>
       </div>
     </BrowserRouter>

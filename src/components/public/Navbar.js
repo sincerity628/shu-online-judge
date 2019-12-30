@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
-import { UIContext } from '../contexts/UIContext';
+import { UserContext } from '../../contexts/UserContext';
+import { UIContext } from '../../contexts/UIContext';
 import { Menu, Button, Dropdown, Dimmer } from 'semantic-ui-react';
-import "./components.css";
+import "../components.css";
 
 const Navbar = () => {
   const history = useHistory();

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
+import ResultCell from '../public/ResultCell';
 import '../components.css';
 
 const SubmissionTable = ({ submissions }) => {
-  console.log(submissions);
-
   return (
     <div className="submmision-table">
       <Table celled textAlign="center">
@@ -30,26 +29,18 @@ const SubmissionTable = ({ submissions }) => {
                 </Link>
               </Table.Cell>
               <Table.Cell>{ submission.createDate }</Table.Cell>
-              <Table.Cell>{ submission.authorName }</Table.Cell>
+              <Table.Cell>
+                <Link to={`/profile/${submission.authorId}`}>
+                  { submission.authorName }
+                </Link>
+              </Table.Cell>
               <Table.Cell>
                 <Link to={`/problem/${submission.problemId}`}>
                   { submission.problemTitle }
                 </Link>
               </Table.Cell>
               <Table.Cell>{ submission.language }</Table.Cell>
-              <Table.Cell
-                positive={ submission.result === 'ACCEPTED' }
-                error={
-                  submission.result === 'RUNTIME_ERROR' ||
-                  submission.result === 'COMPILE_ERROR' ||
-                  submission.result === 'WRONG_ANSWER'
-                }
-                warning={
-                  submission.result === 'CPU_TIME_LIMIT_EXCEEDED' ||
-                  submission.result === 'TIME_LIMIT_EXCEEDED' ||
-                  submission.result === 'MEMORY_LIMIT_EXCEEDED'
-                }
-              ><b>{ submission.result }</b></Table.Cell>
+              <ResultCell result={submission.result} />
               <Table.Cell>
                 { submission.duration? submission.duration : 'N/A' }
               </Table.Cell>

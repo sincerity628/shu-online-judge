@@ -1,6 +1,6 @@
 import React from 'react';
 import { Segment, Label } from 'semantic-ui-react';
-import "./components.css";
+import "../components.css";
 
 const TagGroup = ({ tags, chooseTag }) => {
   return (
