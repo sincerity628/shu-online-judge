@@ -78,7 +78,8 @@ const MySubmission = () => {
       </Segment>
       <Segment attached="bottom">
         <div className="description">
-          ({done} / {total})
+          通过 / 总提交
+          （{done} / {total}）
         </div>
         <DoughnutChart data={data} options={options} />
       </Segment>
