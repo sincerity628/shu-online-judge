@@ -15,8 +15,10 @@ const Home = (props) => {
   const [problems, setProblems] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [tags, setTags] = useState([]);
-  const [total, setTotal] = useState(0);
+  // current page
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [size, setSize] = useState(20);
   const [searchText, setSearchText] = useState('');
   const [text, setText] = useState('');
   const [searchTag, setSearchTag] = useState('');
@@ -54,13 +56,20 @@ const Home = (props) => {
   }, [toggleDimmer, dimmer]);
 
   useEffect(() => {
+    const countTotalPages = (total) => {
+      if(total % size === 0) {
+        setTotalPages(total / size);
+      } else {
+        setTotalPages(Math.floor(total / size) + 1);
+      }
+    }
     const getProblems = () => {
       setDimmer(true);
 
       api
         .getProblems({
           page: page - 1,
-          size: 20,
+          size: size,
           title: searchText,
           tags: searchTag
         })
@@ -69,7 +78,7 @@ const Home = (props) => {
             if(res.status === 200) {
               setDimmer(false);
               setProblems(res.data.list);
-              setTotal(res.data.total);
+              countTotalPages(res.data.total);
             } else {
               setDimmer(false);
             }
@@ -83,7 +92,7 @@ const Home = (props) => {
     let unmounted = false;
     getProblems();
     return () => { unmounted = true; };
-  }, [history, page, searchTag, searchText]);
+  }, [history, page, searchTag, searchText, size]);
 
   // get the tags & announcements
   useEffect(() => {
@@ -147,9 +156,9 @@ const Home = (props) => {
               <Pagination
                 siblingRange={1}
                 activePage={page}
-                totalPages={Math.floor(total / 20) + 1}
+                totalPages={totalPages}
                 onPageChange={handlePageChange}
-                />
+              />
             </div>
 
           </Grid.Column>
@@ -163,6 +172,7 @@ const Home = (props) => {
 
         </Grid.Row>
       </Grid>
+      <div onClick={() => setSize(20)}></div>
     </div>
   );
 }

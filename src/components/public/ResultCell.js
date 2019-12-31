@@ -13,7 +13,8 @@ const ResultCell = ({ result }) => {
       warning={
         result === 'CPU_TIME_LIMIT_EXCEEDED' ||
         result === 'TIME_LIMIT_EXCEEDED' ||
-        result === 'MEMORY_LIMIT_EXCEEDED'
+        result === 'MEMORY_LIMIT_EXCEEDED' ||
+        result === 'JUDGE_CLIENT_ERROR'
       }
     ><b>{ result }</b></Table.Cell>
   );

@@ -77,6 +77,7 @@ const CodeForm = ({ submitCode, btnLoading, setError }) => {
       });
       return;
     }
+    console.log(commit.code);
     submitCode(commit);
   }
 

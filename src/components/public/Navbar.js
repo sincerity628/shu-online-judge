@@ -51,7 +51,7 @@ const Navbar = () => {
           onClick={() => setActiveItem('problem')} as={Link} to="/">题目
         </Menu.Item>
         <Menu.Item name="status" active={ activeItem ==='status' }
-          onClick={() => setActiveItem('status')} as={Link} to="/status">提交状态
+          onClick={() => setActiveItem('status')} as={Link} to="/status">状态
         </Menu.Item>
         <Menu.Item name="test" active={ activeItem ==='test' }
           onClick={() => setActiveItem('test')} as={Link} to="/tests">考试

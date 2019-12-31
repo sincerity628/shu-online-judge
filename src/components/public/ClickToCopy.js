@@ -13,7 +13,9 @@ const ClickToCopy = ({ copyContent }) => {
             点击复制
           </Label>
         </div>
-        <pre className="io">{ copyContent }</pre>
+        <pre className="io">
+          <code>{ copyContent }</code>
+        </pre>
       </span>
     </CopyToClipboard>
   );
