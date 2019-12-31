@@ -63,7 +63,7 @@ const Navbar = () => {
           onClick={() => setActiveItem('rank')} as={Link} to="/rank">排名
         </Menu.Item>
         <Menu.Menu position="right">
-        { token ? (
+        { token && user ? (
           <Dropdown text={ user? user.username : null } pointing
             className='link item'>
 

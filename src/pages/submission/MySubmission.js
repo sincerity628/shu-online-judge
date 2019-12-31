@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Segment } from "semantic-ui-react";
+import { Segment, Divider, Pagination } from "semantic-ui-react";
 import DoughnutChart from "../../components/data-visualization/DoughnutChart";
+import SubmissionTable from '../../components/submission/SubmissionTable';
 import { UserContext } from "../../contexts/UserContext";
 import { UIContext } from "../../contexts/UIContext";
 import api from "../../tools/api";
@@ -31,8 +32,14 @@ const options = {
 const MySubmission = () => {
   const { dispatch } = useContext(UserContext);
   const { toggleDimmer } = useContext(UIContext);
+
+  const [submissions, setSubmissions] = useState([]);
+  // for visualization
   const [data, setData] = useState(initData);
-  const [total, setTotal] = useState(0);
+  const [totalSubmit, setTotalSubmit] = useState(0);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
   const [done, setDone] = useState(0);
   const [dimmer, setDimmer] = useState(false);
 
@@ -51,7 +58,7 @@ const MySubmission = () => {
           setDimmer(false);
           let userResult = res.data;
           setDone(userResult.acCount);
-          setTotal(userResult.submitCount)
+          setTotalSubmit(userResult.submitCount);
           dispatch({ type: 'UPDATE', userResult });
           setData({
             labels: ["通过", "未通过"],
@@ -71,6 +78,39 @@ const MySubmission = () => {
     };
   }, [dispatch, done]);
 
+  useEffect(() => {
+    const countTotalPages = (total) => {
+      if(total % size === 0) {
+        setTotalPages(total / size);
+      } else {
+        setTotalPages(Math.floor(total / size + 1));
+      }
+    };
+
+    let username = JSON.parse(localStorage.getItem('user')).username;
+    setDimmer(true);
+
+    api
+      .getSubmissions({
+        page: page - 1,
+        size: size,
+        isPractice: true,
+        username: username
+      })
+      .then(res => {
+        if(res.status === 200) {
+          setDimmer(false);
+          console.log(res.data);
+          countTotalPages(res.data.total);
+          setSubmissions(res.data.list);
+        }
+      })
+  }, [page]);
+
+  const handlePageChange = (e, { activePage }) => {
+    setPage(activePage);
+  };
+
   return (
     <div className="my-submission">
       <Segment attached="top">
@@ -79,10 +119,22 @@ const MySubmission = () => {
       <Segment attached="bottom">
         <div className="description">
           通过 / 总提交
-          （{done} / {total}）
+          （{done} / {totalSubmit}）
         </div>
         <DoughnutChart data={data} options={options} />
       </Segment>
+      <div className="divider-line">
+        <Divider horizontal>提交记录</Divider>
+      </div>
+      <SubmissionTable submissions={submissions} />
+      <div className="my-submission-pagination">
+        <Pagination
+          siblingRange={1}
+          activePage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };

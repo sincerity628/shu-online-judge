@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UIContext } from '../../contexts/UIContext';
-import { Grid, Input, Pagination, Segment } from 'semantic-ui-react';
+import { Grid, Input, Pagination } from 'semantic-ui-react';
 import ProblemTable from '../../components/home/ProblemTable';
 import Announcement from '../../components/home/Announcement';
 import TagGroup from '../../components/public/TagGroup';
@@ -148,7 +148,10 @@ const Home = (props) => {
                 }} />
             </form>
 
-            { tagName && <Segment className="tagHolder">{ tagName }</Segment> }
+            { tagName &&
+              <div className="tagHolder">
+                <b>{ tagName }</b>
+              </div> }
 
             <ProblemTable problems={problems} />
 

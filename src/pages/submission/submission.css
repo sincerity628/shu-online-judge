@@ -3,6 +3,15 @@
   text-align: center;
 }
 
+.divider-line {
+  margin: 40px 0;
+}
+
+.my-submission-pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
 /* Submission Detail */
 .code-area {
   margin-top: 20px;

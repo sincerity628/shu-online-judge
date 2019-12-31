@@ -10,5 +10,9 @@
 }
 
 .tagHolder {
-  margin-top: 53px !important;
+  margin: 53px 0 10px;
+  border: #dededf 1px solid;
+  border-radius: 3px;
+  padding: 14px;
+  color: #333;
 }
