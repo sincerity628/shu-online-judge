@@ -86,6 +86,13 @@ const ProblemDetail = (props) => {
           });
         }
       })
+      .catch(error => {
+        setError({
+          isError: true,
+          content: '请登录'
+        });
+        setBtnLoading(false);
+      })
   }
 
   return (

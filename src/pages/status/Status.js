@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Pagination } from 'semantic-ui-react';
 import SubmissionTable from '../../components/submission/SubmissionTable';
 import { UIContext } from '../../contexts/UIContext';
@@ -6,7 +7,9 @@ import "./status.css";
 import api from '../../tools/api';
 
 const Status = () => {
+  const history = useHistory();
   const { toggleDimmer } = useContext(UIContext);
+
   const [submissions, setSubmissions] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -43,7 +46,10 @@ const Status = () => {
           setDimmer(false);
         }
       })
-  }, [page, size]);
+      .catch(error => {
+        history.push('/not-signin');
+      })
+  }, [page, size, history]);
 
   const handlePageChange = (e, { activePage }) => {
     setPage(activePage);

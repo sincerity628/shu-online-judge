@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import ResultCell from '../public/ResultCell';
 import '../components.css';
 
 const SubmissionTable = ({ submissions }) => {
+  console.log(submissions);
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    let id = JSON.parse(localStorage.getItem('user')).id;
+    setUserId(id);
+  }, []);
+
   return (
     <div className="submmision-table">
     { submissions.length? (
@@ -24,11 +32,17 @@ const SubmissionTable = ({ submissions }) => {
         <Table.Body>
           { submissions.map(submission => (
             <Table.Row key={submission.id}>
-              <Table.Cell>
-                <Link to={`/submission/${submission.id}`}>
+              { userId === submission.authorId? (
+                <Table.Cell>
+                  <Link to={`/submission/${submission.id}`}>
+                    { submission.id.substring(0, 15) + "..." }
+                  </Link>
+                </Table.Cell>
+              ) : (
+                <Table.Cell>
                   { submission.id.substring(0, 15) + "..." }
-                </Link>
-              </Table.Cell>
+                </Table.Cell>
+              ) }
               <Table.Cell>{ submission.createDate }</Table.Cell>
               <Table.Cell>
                 <Link to={`/profile/${submission.authorId}`}>
