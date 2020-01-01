@@ -85,7 +85,7 @@ const Home = (props) => {
           }
         })
         .catch(error => {
-          history.push('/internet-error');
+          history.push('/not-signin');
         })
     }
 

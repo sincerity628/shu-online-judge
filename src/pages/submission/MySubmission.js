@@ -100,12 +100,11 @@ const MySubmission = () => {
       .then(res => {
         if(res.status === 200) {
           setDimmer(false);
-          console.log(res.data);
           countTotalPages(res.data.total);
           setSubmissions(res.data.list);
         }
       })
-  }, [page]);
+  }, [page, size]);
 
   const handlePageChange = (e, { activePage }) => {
     setPage(activePage);
@@ -135,6 +134,7 @@ const MySubmission = () => {
           onPageChange={handlePageChange}
         />
       </div>
+      <div onClick={() => setSize(size)}></div>
     </div>
   );
 };

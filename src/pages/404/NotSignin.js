@@ -11,7 +11,7 @@ const NotSignin = () => {
   return (
     <div className="not-signin">
       <h1>访问受限</h1>
-      <h3>请登录账号以访问相关内容</h3>
+      <h3>请登录账号以访问相关内容，并且使用上海大学校园网访问本网站</h3>
     </div>
   );
 }

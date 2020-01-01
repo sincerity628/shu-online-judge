@@ -21,6 +21,8 @@ export default {
     code: result.code,
     language: result.language
   }),
+  // contest
+  getContests: () => request.get('/contests'),
 
 
 }

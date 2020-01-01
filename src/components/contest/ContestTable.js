@@ -1,0 +1,103 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Table, Icon, Label } from 'semantic-ui-react';
+import '../components.css';
+
+const ContestTable = ({ contests }) => {
+  console.log(contests);
+  const countDuration = (start, end) => {
+    start = start.replace(/-/g, '/');
+    end = end.replace(/-/g, '/');
+    let date1 = new Date(start);
+    let date2 = new Date(end);
+    let duration = (date2 - date1) / 1000;
+    let hour = Math.floor(duration / 3600).toString();
+    let minute = Math.floor(duration / 60 % 60);
+    minute = minute === 0 ? '00' : minute.toString();
+    return hour + ":" + minute;
+  };
+
+  const transTypeToIcon = (type) => {
+    switch(type) {
+      case 'PUBLIC':
+        return <Icon color="green" name="check" size="large" className="type-icon" />;
+      case 'SECRET_WITH_PASSWORD':
+        return (
+          <div className="father">
+            <div>
+            <div className="tooltip-container">
+              <Label pointing="below" className="tooltip" size="large" color="black">{ transTypeToText(type) }</Label>
+            </div>
+            <Icon name="lock" size="large" className="type-icon" />
+            </div>
+          </div>
+        );
+      case 'SECRET_WITHOUT_PASSWORD':
+        return <Icon color="red" name="times" size="large" className="type-icon" />;
+    }
+  };
+
+  const transTypeToText = (type) => {
+    switch(type) {
+      case 'PUBLIC':
+        return '公开赛';
+      case 'SECRET_WITH_PASSWORD':
+        return '私密可加入';
+      case 'SECRET_WITHOUT_PASSWORD':
+        return '不可加入';
+    }
+  };
+
+  const transStatusToText = (status) => {
+    switch(status) {
+      case 'NOT_STARTED':
+        return '即将开始';
+      case 'PROCESSING':
+        return '正在进行';
+      case 'ENDED':
+        return '已结束';
+    }
+  }
+
+  return (
+    <div className="contest-table">
+      { contests.length? (
+        <Table celled textAlign="center">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>名称</Table.HeaderCell>
+              <Table.HeaderCell>开始时间</Table.HeaderCell>
+              <Table.HeaderCell>时长</Table.HeaderCell>
+              <Table.HeaderCell>权限</Table.HeaderCell>
+              <Table.HeaderCell>状态</Table.HeaderCell>
+              <Table.HeaderCell>发起人</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            { contests.map(contest => (
+              <Table.Row key={contest.id}>
+                <Table.Cell>
+                  <Link to={`/contest/${contest.id}`}>{ contest.name }</Link>
+                </Table.Cell>
+                <Table.Cell>{ contest.startDate }</Table.Cell>
+                <Table.Cell>{ countDuration(contest.startDate, contest.endDate) }</Table.Cell>
+                <Table.Cell>
+                    { transTypeToIcon(contest.contestType) }
+                </Table.Cell>
+                <Table.Cell>{ transStatusToText(contest.status) }</Table.Cell>
+                <Table.Cell>
+                  <Link to={`/profile/${contest.authorId}`}>{ contest.authorName }</Link>
+                </Table.Cell>
+              </Table.Row>
+            )) }
+          </Table.Body>
+        </Table>
+      ) : (
+        <p>暂无比赛</p>
+      ) }
+    </div>
+  );
+}
+
+export default ContestTable;

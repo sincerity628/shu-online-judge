@@ -53,8 +53,8 @@ const Navbar = () => {
         <Menu.Item name="status" active={ activeItem ==='status' }
           onClick={() => setActiveItem('status')} as={Link} to="/status">状态
         </Menu.Item>
-        <Menu.Item name="test" active={ activeItem ==='test' }
-          onClick={() => setActiveItem('test')} as={Link} to="/tests">考试
+        <Menu.Item name="contest" active={ activeItem ==='contest' }
+          onClick={() => setActiveItem('contest')} as={Link} to="/contests">比赛
         </Menu.Item>
         <Menu.Item name="group" active={ activeItem ==='group' }
           onClick={() => setActiveItem('group')} as={Link} to="/groups">小组

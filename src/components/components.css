@@ -102,3 +102,38 @@
 .result-table {
   margin-top: 20px;
 }
+
+/* Contest Table */
+.type-icon:hover {
+  cursor: pointer;
+}
+
+.tooltip-container {
+  position: absolute;
+  display: none;
+}
+
+.father:hover .tooltip-container {
+  display: block;
+}
+
+.tooltip-container:hover {
+  cursor: pointer;
+}
+
+.tooltip {
+  bottom: 40px;
+  right: 23px;
+}
+
+@media only screen and (max-width: 1020px) {
+  .tooltip {
+    right: 27px;
+  }
+}
+
+@media only screen and (min-width: 1220px) {
+  .tooltip {
+    right: 13px;
+  }
+}
