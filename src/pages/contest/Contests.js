@@ -75,6 +75,10 @@ const Tests = () => {
     setPassword(e.target.value);
   };
 
+  const goToContest = (id) => {
+    history.push(`/contest/${id}`);
+  };
+
   const joinContest = () => {
     setBtnLoading(true);
 
@@ -91,9 +95,9 @@ const Tests = () => {
 
             setTimeout(() => {
               setOpen(false);
-              history.push(`/contest/${joinId}`);
+              goToContest(joinId);
             }, 1000);
-            
+
             setPassword('');
 
           } else if(res.data.message === '密码错误') {
@@ -150,7 +154,9 @@ const Tests = () => {
           }}
         />
       </form>
-      <ContestTable contests={contests} toggleOpen={toggleOpen} />
+      <ContestTable contests={contests}
+        action={{ goToContest, toggleOpen }}
+      />
       <div className="contest-pagination">
         <Pagination
           siblingRange={1}

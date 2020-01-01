@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Icon, Label} from 'semantic-ui-react';
+import api from '../../tools/api';
 import '../components.css';
 
-const ContestTable = ({ contests, toggleOpen }) => {
+const ContestTable = ({ contests, action }) => {
   const countDuration = (start, end) => {
     start = start.replace(/-/g, '/');
     end = end.replace(/-/g, '/');
@@ -62,7 +63,20 @@ const ContestTable = ({ contests, toggleOpen }) => {
       default:
         return '';
     }
-  }
+  };
+
+  const joinContest = (id) => {
+    api
+      .getContest(id)
+      .then(res => {
+        if(res.status === 200) {
+          action.goToContest(id);
+        }
+      })
+      .catch(error => {
+        action.toggleOpen(true, id);
+      })
+  };
 
   return (
     <div className="contest-table">
@@ -96,7 +110,7 @@ const ContestTable = ({ contests, toggleOpen }) => {
                     { contest.contestType === 'SECRET_WITH_PASSWORD' && (
                       <Table.Cell>
                         <span className="secret-contest"
-                          onClick={() => toggleOpen(true, contest.id)}
+                          onClick={() => joinContest(contest.id)}
                         >{ contest.name }</span>
                       </Table.Cell>
                     ) }
