@@ -23,9 +23,9 @@ const Status = () => {
   useEffect(() => {
     const countTotalPages = (total) => {
       if(total % size === 0) {
-        setTotalPages(total / size - 2);
+        setTotalPages(total / size);
       } else {
-        setTotalPages(Math.floor(total / size - 1));
+        setTotalPages(Math.floor(total / size) + 1);
       }
     };
 

@@ -28,6 +28,8 @@ const Router = () => {
       <Route path="/signin" component={Signin} />
       <Route path="/signup" component={Signup} />
       <Route path="/backend" component={Backend} />
+      <Route path="/contest/:id" component={ContestDetail} />
+      <Route path="/contests" component={Contests} />
       <Route path="/forget-password" component={ForgetPassword} />
       <Route path="/groups" component={Groups} />
       <Route path="/problem/:id" component={ProblemDetail} />
@@ -37,8 +39,7 @@ const Router = () => {
       <Route path="/status" component={Status} />
       <Route path="/my-submission" component={MySubmission} />
       <Route path="/submission/:id" component={SubmissionDetail} />
-      <Route path="/contest/:id" component={ContestDetail} />
-      <Route path="/contests" component={Contests} />
+
     </Switch>
   );
 }

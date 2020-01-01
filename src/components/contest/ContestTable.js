@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Icon, Label } from 'semantic-ui-react';
+import { Table, Icon, Label} from 'semantic-ui-react';
 import '../components.css';
 
-const ContestTable = ({ contests }) => {
+const ContestTable = ({ contests, toggleOpen }) => {
   const countDuration = (start, end) => {
     start = start.replace(/-/g, '/');
     end = end.replace(/-/g, '/');
@@ -85,9 +85,21 @@ const ContestTable = ({ contests }) => {
                 return contest.visible? (
                   <Table.Row key={contest.id}>
                     <Table.Cell><b>{ index + 1 }</b></Table.Cell>
-                    <Table.Cell>
-                      <Link to={`/contest/${contest.id}`}>{ contest.name }</Link>
-                    </Table.Cell>
+                    { contest.contestType === 'PUBLIC' && (
+                      <Table.Cell>
+                        <Link to={`/contest/${contest.id}`}>{ contest.name }</Link>
+                      </Table.Cell>
+                    ) }
+                    { contest.contestType === 'SECRET_WITHOUT_PASSWORD' && (
+                      <Table.Cell>{ contest.name }</Table.Cell>
+                    ) }
+                    { contest.contestType === 'SECRET_WITH_PASSWORD' && (
+                      <Table.Cell>
+                        <span className="secret-contest"
+                          onClick={() => toggleOpen(true, contest.id)}
+                        >{ contest.name }</span>
+                      </Table.Cell>
+                    ) }
                     <Table.Cell>{ contest.startDate }</Table.Cell>
                     <Table.Cell>{ countDuration(contest.startDate, contest.endDate) }</Table.Cell>
                     <Table.Cell>

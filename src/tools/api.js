@@ -23,6 +23,8 @@ export default {
   }),
   // contest
   getContests: (data) => request.get('/contests', { params: data }),
+  getContest: (id) => request.get(`/contests/${id}`),
+  joinContest: (data) => request.post(`/contests/${data.id}/join?password=${data.password}`),
 
 
 }
