@@ -22,7 +22,7 @@ export default {
     language: result.language
   }),
   // contest
-  getContests: () => request.get('/contests'),
+  getContests: (data) => request.get('/contests', { params: data }),
 
 
 }

@@ -1,0 +1,10 @@
+.contest-pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.search-input {
+  float: right;
+  margin-bottom: 20px;
+  width: 193px !important;
+}

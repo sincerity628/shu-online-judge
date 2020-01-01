@@ -4,7 +4,6 @@ import { Table, Icon, Label } from 'semantic-ui-react';
 import '../components.css';
 
 const ContestTable = ({ contests }) => {
-  console.log(contests);
   const countDuration = (start, end) => {
     start = start.replace(/-/g, '/');
     end = end.replace(/-/g, '/');
@@ -34,6 +33,8 @@ const ContestTable = ({ contests }) => {
         );
       case 'SECRET_WITHOUT_PASSWORD':
         return <Icon color="red" name="times" size="large" className="type-icon" />;
+      default:
+        return '';
     }
   };
 
@@ -45,6 +46,8 @@ const ContestTable = ({ contests }) => {
         return '私密可加入';
       case 'SECRET_WITHOUT_PASSWORD':
         return '不可加入';
+      default:
+        return '';
     }
   };
 
@@ -56,6 +59,8 @@ const ContestTable = ({ contests }) => {
         return '正在进行';
       case 'ENDED':
         return '已结束';
+      default:
+        return '';
     }
   }
 
@@ -65,6 +70,7 @@ const ContestTable = ({ contests }) => {
         <Table celled textAlign="center">
           <Table.Header>
             <Table.Row>
+              <Table.HeaderCell>#</Table.HeaderCell>
               <Table.HeaderCell>名称</Table.HeaderCell>
               <Table.HeaderCell>开始时间</Table.HeaderCell>
               <Table.HeaderCell>时长</Table.HeaderCell>
@@ -75,22 +81,25 @@ const ContestTable = ({ contests }) => {
           </Table.Header>
 
           <Table.Body>
-            { contests.map(contest => (
-              <Table.Row key={contest.id}>
-                <Table.Cell>
-                  <Link to={`/contest/${contest.id}`}>{ contest.name }</Link>
-                </Table.Cell>
-                <Table.Cell>{ contest.startDate }</Table.Cell>
-                <Table.Cell>{ countDuration(contest.startDate, contest.endDate) }</Table.Cell>
-                <Table.Cell>
-                    { transTypeToIcon(contest.contestType) }
-                </Table.Cell>
-                <Table.Cell>{ transStatusToText(contest.status) }</Table.Cell>
-                <Table.Cell>
-                  <Link to={`/profile/${contest.authorId}`}>{ contest.authorName }</Link>
-                </Table.Cell>
-              </Table.Row>
-            )) }
+            { contests.map((contest, index) => {
+                return contest.visible? (
+                  <Table.Row key={contest.id}>
+                    <Table.Cell><b>{ index + 1 }</b></Table.Cell>
+                    <Table.Cell>
+                      <Link to={`/contest/${contest.id}`}>{ contest.name }</Link>
+                    </Table.Cell>
+                    <Table.Cell>{ contest.startDate }</Table.Cell>
+                    <Table.Cell>{ countDuration(contest.startDate, contest.endDate) }</Table.Cell>
+                    <Table.Cell>
+                        { transTypeToIcon(contest.contestType) }
+                    </Table.Cell>
+                    <Table.Cell>{ transStatusToText(contest.status) }</Table.Cell>
+                    <Table.Cell>
+                      <Link to={`/profile/${contest.authorId}`}>{ contest.authorName }</Link>
+                    </Table.Cell>
+                  </Table.Row>
+                ) : null;
+              }) }
           </Table.Body>
         </Table>
       ) : (
