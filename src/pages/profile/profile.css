@@ -1,0 +1,28 @@
+.profile-card {
+  width: 50% !important;
+  margin: 15% auto !important;
+}
+
+@media only screen and (max-width: 700px) {
+  .profile-card {
+    width: 85% !important;
+  }
+}
+
+.card-container {
+  margin-top: 10px;
+}
+
+.info-detail {
+  margin-left: 10px;
+}
+
+.solved {
+  color: green;
+  font-weight: bold;
+}
+
+.submitted {
+  color: #333;
+  font-weight: bold;
+}

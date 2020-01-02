@@ -39,7 +39,6 @@ const Router = () => {
       <Route path="/status" component={Status} />
       <Route path="/my-submission" component={MySubmission} />
       <Route path="/submission/:id" component={SubmissionDetail} />
-
     </Switch>
   );
 }

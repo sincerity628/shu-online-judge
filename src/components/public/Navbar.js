@@ -16,7 +16,7 @@ const Navbar = () => {
     if(user && user.authorities) {
       switch(user.authorities[0].authority) {
         case 'ROLE_USER':
-          setRole('同学');
+          setRole('学生');
           break;
         case 'ROLE_STUFF':
           setRole('教师');
@@ -70,7 +70,7 @@ const Navbar = () => {
             <Dropdown.Menu style={{marginRight: '10px'}}>
               <Dropdown.Header>({ role })</Dropdown.Header>
 
-              { role !== '同学' ? (
+              { role !== '学生' ? (
                 <Dropdown.Item as={Link} to="/backend">后台管理</Dropdown.Item>
               ) : null }
 

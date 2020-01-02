@@ -5,6 +5,8 @@ export default {
   login: (data) => request.post('/auth', data),
   register: (data) => request.post('/register', data),
   getUserInfo: (data) => request.get('/me'),
+  // user
+  getUser: (id) => request.get(`/users/${id}`),
   // problem
   getProblems: (data) => request.get('/problems', { params: data }),
   getProblem: (id) => request.get(`/problems/${id}`),
