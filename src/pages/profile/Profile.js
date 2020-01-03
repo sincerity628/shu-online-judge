@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Card, Icon } from 'semantic-ui-react';
 import { UIContext } from '../../contexts/UIContext';
 import api from '../../tools/api';
-import shadow from '../../assets/image/shadow.jpg';
 import './profile.css';
 
 const Profile = (props) => {
@@ -49,7 +48,7 @@ const Profile = (props) => {
             { user.username }（{ transRole() }）
           </Card.Header>
         </Card.Content>
-
+        
         <Card.Content>
           <div>
             <Icon name="user" />
