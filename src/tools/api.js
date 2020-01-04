@@ -10,6 +10,7 @@ export default {
   // problem
   getProblems: (data) => request.get('/problems', { params: data }),
   getProblem: (id) => request.get(`/problems/${id}`),
+  getContestProblems: (id) => request.get(`/contests/${id}/problems`),
   // tag
   getTags: () => request.get('/tags'),
   // announcement

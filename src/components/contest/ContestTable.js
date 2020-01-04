@@ -99,13 +99,10 @@ const ContestTable = ({ contests, action }) => {
                 return contest.visible? (
                   <Table.Row key={contest.id}>
                     <Table.Cell><b>{ index + 1 }</b></Table.Cell>
-                    { contest.contestType === 'PUBLIC' && (
+                    { contest.contestType !== 'SECRET_WITH_PASSWORD' && (
                       <Table.Cell>
                         <Link to={`/contest/${contest.id}`}>{ contest.name }</Link>
                       </Table.Cell>
-                    ) }
-                    { contest.contestType === 'SECRET_WITHOUT_PASSWORD' && (
-                      <Table.Cell>{ contest.name }</Table.Cell>
                     ) }
                     { contest.contestType === 'SECRET_WITH_PASSWORD' && (
                       <Table.Cell>

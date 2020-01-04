@@ -153,7 +153,7 @@ const Home = (props) => {
                 <b>{ tagName }</b>
               </div> }
 
-            <ProblemTable problems={problems} />
+            <ProblemTable problems={problems} contest={false} />
 
             <div className="home-pagination">
               <Pagination

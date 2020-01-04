@@ -2,13 +2,14 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import { UIContext } from '../../contexts/UIContext';
-import { Menu, Button, Dropdown, Dimmer } from 'semantic-ui-react';
+import { Menu, Button, Dropdown, Dimmer, Header, Icon } from 'semantic-ui-react';
 import "../components.css";
 
 const Navbar = () => {
   const history = useHistory();
   const { user, token, dispatch } = useContext(UserContext);
-  const { dimmer, toggleDimmer } = useContext(UIContext);
+  const { dimmer, toggleDimmer, dimmerMsg, inverted } = useContext(UIContext);
+
   const [activeItem, setActiveItem] = useState('');
   const [role, setRole] = useState('');
 
@@ -42,7 +43,11 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <Dimmer active={dimmer} page inverted></Dimmer>
+      <Dimmer active={dimmer} page inverted={inverted}>
+        { dimmerMsg.isShow && (
+          <Header as="h3" inverted>{ dimmerMsg.content }</Header>
+        ) }
+      </Dimmer>
       <Menu>
         <Menu.Item as={Link} to="/" onClick={() => setActiveItem('')}>
           <div className="logo-text">SHU Online Judge</div>

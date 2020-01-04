@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Label } from 'semantic-ui-react';
 
-const ProblemTable = ({ problems }) => {
+const ProblemTable = ({ problems, contest }) => {
 
   const calculateDifficulty = (difficulty) => {
     switch(difficulty) {
@@ -50,7 +50,7 @@ const ProblemTable = ({ problems }) => {
         </Table.Body>
       </Table>
     ) : (
-      <p>problems not found...</p>
+      <p>...</p>
     ) }
     </div>
   );

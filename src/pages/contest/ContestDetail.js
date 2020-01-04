@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Menu, Table, Label } from 'semantic-ui-react';
 import { UIContext } from '../../contexts/UIContext';
+import ProblemTable from '../../components/home/ProblemTable';
 import api from '../../tools/api';
 import './contest.css';
 
 
 const ContestDetail = (props) => {
-  const { toggleDimmer } = useContext(UIContext);
+  const history = useHistory();
+  const { toggleDimmer, toggleDimmerMsg, toggleInverted } = useContext(UIContext);
 
   const [contest, setContest] = useState({});
+  const [problems, setProblems] = useState([]);
   const [activeItem, setActiveItem] = useState('考试信息');
+  const [errorMsg, setErrorMsg] = useState('');
   const [dimmer, setDimmer] = useState(false);
 
   useEffect(() => {
@@ -28,7 +32,45 @@ const ContestDetail = (props) => {
           setContest(res.data);
         }
       })
-  }, []);
+      .catch(error => {
+        console.log(error);
+        if(error.data.code === -4) {
+          toggleDimmerMsg({
+            isShow: true,
+            content: '比赛不可加入'
+          });
+          toggleInverted(false);
+
+          setTimeout(() => {
+            history.push('/contests');
+            toggleDimmerMsg({
+              isShow: false,
+              content: ''
+            });
+            toggleInverted(true);
+            setDimmer(false);
+          }, 2000);
+        }
+      })
+  }, [props]);
+
+  useEffect(() => {
+    api
+      .getContestProblems(props.match.params.id)
+      .then(res => {
+        console.log(res);
+        if(res.status === 200) {
+          setProblems(res.data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        if(error.status === 400 && error.data.code === -3) {
+          // the contest is not started yet
+          setErrorMsg(error.data.message);
+        }
+      })
+  }, [props]);
 
   const transTypeToText = (type) => {
     switch(type) {
@@ -66,9 +108,14 @@ const ContestDetail = (props) => {
           onClick={() => setActiveItem('考试信息')}
         />
         <Menu.Item
-          name="题目列表"
-          active={activeItem === '题目列表'}
-          onClick={() => setActiveItem('题目列表')}
+          name="我的提交"
+          active={activeItem === '我的提交'}
+          onClick={() => setActiveItem('我的提交')}
+        />
+        <Menu.Item
+          name="所有提交"
+          active={activeItem === '所有提交'}
+          onClick={() => setActiveItem('所有提交')}
         />
         <Menu.Item
           name="排名情况"
@@ -115,6 +162,10 @@ const ContestDetail = (props) => {
               </Table.Row>
             </Table.Body>
           </Table>
+
+          <h4>题目列表</h4>
+          { errorMsg && <div>{ errorMsg }</div> }
+          <ProblemTable problems={problems} contest={true} />
         </div>
       ) }
       { activeItem === '题目列表' && (
