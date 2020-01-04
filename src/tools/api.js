@@ -11,6 +11,8 @@ export default {
   getProblems: (data) => request.get('/problems', { params: data }),
   getProblem: (id) => request.get(`/problems/${id}`),
   getContestProblems: (id) => request.get(`/contests/${id}/problems`),
+  getContestProblem: (contestId, problemId) =>
+    request.get(`/contests/${contestId}/problems/${problemId}`),
   // tag
   getTags: () => request.get('/tags'),
   // announcement
@@ -28,6 +30,5 @@ export default {
   getContests: (data) => request.get('/contests', { params: data }),
   getContest: (id) => request.get(`/contests/${id}`),
   joinContest: (data) => request.post(`/contests/${data.id}/join?password=${data.password}`),
-
-
+  
 }

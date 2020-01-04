@@ -145,3 +145,12 @@
 .secret-contest:hover {
   cursor: pointer;
 }
+
+/* Problem Table */
+.problem-title {
+  color: #327fca;
+}
+
+.problem-title:hover {
+  cursor: pointer;
+}

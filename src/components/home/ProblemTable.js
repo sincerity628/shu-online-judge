@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Label } from 'semantic-ui-react';
+import '../components.css';
 
-const ProblemTable = ({ problems, contest }) => {
+const ProblemTable = ({ problems, contest, chooseProblem }) => {
 
   const calculateDifficulty = (difficulty) => {
     switch(difficulty) {
@@ -34,9 +35,20 @@ const ProblemTable = ({ problems, contest }) => {
             return (
               <Table.Row key={problem.id}>
                 <Table.Cell collapsing>{ index + 1 }</Table.Cell>
-                <Table.Cell>
-                  <Link to={`/problem/${problem.id}`}>{ problem.title }</Link>
-                </Table.Cell>
+                { contest && (
+                  <Table.Cell>
+                    <span className="problem-title"
+                      onClick={() => chooseProblem(problem.id)}
+                    >
+                      { problem.title }
+                    </span>
+                  </Table.Cell>
+                ) }
+                { !contest && (
+                  <Table.Cell>
+                    <Link to={`/problem/${problem.id}`}>{ problem.title }</Link>
+                  </Table.Cell>
+                ) }
                 <Table.Cell collapsing>
                   { calculateDifficulty(problem.difficulty) }
                 </Table.Cell>
@@ -50,7 +62,7 @@ const ProblemTable = ({ problems, contest }) => {
         </Table.Body>
       </Table>
     ) : (
-      <p>...</p>
+      <p>problem not found...</p>
     ) }
     </div>
   );

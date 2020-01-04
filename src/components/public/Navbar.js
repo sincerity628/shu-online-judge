@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import { UIContext } from '../../contexts/UIContext';
-import { Menu, Button, Dropdown, Dimmer, Header, Icon } from 'semantic-ui-react';
+import { Menu, Button, Dropdown, Dimmer, Header } from 'semantic-ui-react';
 import "../components.css";
 
 const Navbar = () => {
