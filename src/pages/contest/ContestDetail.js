@@ -7,6 +7,7 @@ import ProblemDescription from '../../components/problem/ProblemDescription';
 import ProblemContent from '../../components/problem/ProblemContent';
 import CodeForm from '../../components/problem/CodeForm';
 import ResultTable from '../../components/problem/ResultTable';
+import SubmissionTable from '../../components/submission/SubmissionTable';
 import api from '../../tools/api';
 import './contest.css';
 
@@ -21,6 +22,7 @@ const ContestDetail = (props) => {
 
   const [contest, setContest] = useState({});
   const [problems, setProblems] = useState([]);
+  const [isChose, setIsChose] = useState(false);
   const [choseProblemId, setChoseProblemId] = useState('');
   const [choseProblem, setChoseProblem] = useState({});
   const [activeItem, setActiveItem] = useState('考试信息');
@@ -28,6 +30,10 @@ const ContestDetail = (props) => {
   const [error, setError] = useState(initError);
   const [btnLoading, setBtnLoading] = useState(false);
   const [result, setResult] = useState({});
+
+  const [mySubmissions, setMySubmissions] = useState([]);
+  const [allSubmissions, setAllSubmissions] = useState([]);
+  const [rank, setRank] = useState([]);
 
   const [dimmer, setDimmer] = useState(false);
   const [inverted, setInverted] = useState(true);
@@ -55,12 +61,10 @@ const ContestDetail = (props) => {
       .then(res => {
         if(!unmounted && res.status === 200) {
           setDimmer(false);
-          console.log(res.data);
           setContest(res.data);
         }
       })
       .catch(error => {
-        console.log(error);
         if(!unmounted && error.data.code === -4) {
           setDimmerMsg({
             isShow: true,
@@ -88,14 +92,12 @@ const ContestDetail = (props) => {
     api
       .getContestProblems(props.match.params.id)
       .then(res => {
-        console.log(res);
         if(!unmounted && res.status === 200) {
           setDimmer(false);
           setProblems(res.data);
         }
       })
       .catch(error => {
-        console.log(error);
         if(!unmounted &&
           error.status === 400 &&
           error.data.code === -3) {
@@ -104,6 +106,39 @@ const ContestDetail = (props) => {
           setErrorMsg(error.data.message);
         }
       })
+    return () => unmounted = true;
+  }, [props]);
+
+  useEffect(() => {
+    let data = {
+      contestId: props.match.params.id,
+      problemId: choseProblemId
+    };
+    if(isChose) {
+      api
+        .getContestSubmission(data)
+        .then(res => {
+          if(res.status === 200) {
+            setMySubmissions(res.data);
+          }
+        })
+    }
+  }, [props, isChose, choseProblemId]);
+
+  useEffect(() => {
+    let unmounted = false;
+    api
+      .getContestSubmissions({
+        contestId: props.match.params.id,
+        page: 0,
+        size: 20
+      })
+      .then(res => {
+        if(!unmounted && res.status === 200) {
+          console.log(res);
+        }
+      })
+
     return () => unmounted = true;
   }, [props]);
 
@@ -147,12 +182,40 @@ const ContestDetail = (props) => {
 
   const chooseProblem = (id) => {
     setChoseProblemId(id);
+    setIsChose(true);
     getChoseProblem(id);
     setActiveItem('');
   };
 
-  const submitCode = () => {
-    console.log('submit code');
+  const submitCode = (commit) => {
+    setBtnLoading(true);
+    commit.contestId = props.match.params.id;
+    commit.problemId = choseProblemId;
+    api
+      .createContestSubmission(commit)
+      .then(res => {
+        if(res.status === 200) {
+          setBtnLoading(false);
+          setResult(res.data);
+        }
+      })
+      .catch(error => {
+        if(error.status === 400 && error.data.code === -6) {
+          setBtnLoading(false);
+          setError({
+            isError: true,
+            content: error.data.message
+          });
+        } else if(error.status === 400 && error.data.code === -3) {
+          setBtnLoading(false);
+          setError({
+            isError: true,
+            content: error.data.message
+          });
+        } else {
+          setBtnLoading(false);
+        }
+      })
   };
 
   return (
@@ -164,23 +227,9 @@ const ContestDetail = (props) => {
           active={activeItem === '考试信息'}
           onClick={() => {
             setActiveItem('考试信息');
-            setChoseProblemId('');
-          }}
-        />
-        <Menu.Item
-          name="我的提交"
-          active={activeItem === '我的提交'}
-          onClick={() => {
-            setActiveItem('我的提交');
-            setChoseProblemId('');
-          }}
-        />
-        <Menu.Item
-          name="所有提交"
-          active={activeItem === '所有提交'}
-          onClick={() => {
-            setActiveItem('所有提交');
-            setChoseProblemId('');
+            setIsChose(false);
+            setError(initError);
+            setResult(null);
           }}
         />
         <Menu.Item
@@ -188,9 +237,33 @@ const ContestDetail = (props) => {
           active={activeItem === '排名情况'}
           onClick={() => {
             setActiveItem('排名情况');
-            setChoseProblemId('');
+            setIsChose(false);
+            setError(initError);
+            setResult(null);
           }}
         />
+        <Menu.Item
+          name="所有提交"
+          active={activeItem === '所有提交'}
+          onClick={() => {
+            setActiveItem('所有提交');
+            setIsChose(false);
+            setError(initError);
+            setResult(null);
+          }}
+        />
+        { isChose && (
+          <Menu.Item
+            name="我的提交"
+            active={activeItem === '我的提交'}
+            onClick={() => {
+              setActiveItem('我的提交');
+              setChoseProblemId('');
+              setError(initError);
+              setResult(null);
+            }}
+          />
+        ) }
       </Menu>
       { (activeItem === '考试信息' || choseProblemId) && (
         <Grid columns={2}>
@@ -280,16 +353,19 @@ const ContestDetail = (props) => {
         </Grid>
       ) }
 
-      { activeItem === '我的提交' && (
-        <h1>我的提交</h1>
+      { activeItem === '排名情况' && (
+        <h1>排名情况</h1>
       ) }
 
       { activeItem === '所有提交' && (
         <h1>所有提交</h1>
       ) }
 
-      { activeItem === '排名情况' && (
-        <h1>排名情况</h1>
+      { activeItem === '我的提交' && (
+        <div>
+          <h2>{ choseProblem.title }</h2>
+          <SubmissionTable submissions={mySubmissions} />
+        </div>
       ) }
 
     </div>

@@ -22,13 +22,27 @@ export default {
   getSubmissions: (data) => request.get('/submissions', { params: data }),
   getSubmission: (id) => request.get(`/submissions/${id}`),
   getPracticeSubmission: (id) => request.get(`/problems/${id}/submissions`),
-  createPracticeSubmission: (result) => request.post(`/problems/${result.id}/submissions`, {
-    code: result.code,
-    language: result.language
+  createPracticeSubmission: (data) => request.post(`/problems/${data.id}/submissions`, {
+    code: data.code,
+    language: data.language
   }),
+  getContestSubmission: (data) =>
+    request.get(`/contests/${data.contestId}/problems/${data.problemId}/submissions`),
+  getContestSubmissions: (data) =>
+    request.get(`/contests/${data.contestId}/submissions`, {
+      params: {
+        page: data.page,
+        size: data.size
+      }
+    }),
+  createContestSubmission: (data) =>
+    request.post(`/contests/${data.contestId}/problems/${data.problemId}/submissions`, {
+      code: data.code,
+      language: data.language
+    }),
   // contest
   getContests: (data) => request.get('/contests', { params: data }),
   getContest: (id) => request.get(`/contests/${id}`),
   joinContest: (data) => request.post(`/contests/${data.id}/join?password=${data.password}`),
-  
+
 }
