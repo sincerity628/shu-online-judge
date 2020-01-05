@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Pagination } from 'semantic-ui-react';
 import { UIContext } from '../../contexts/UIContext';
 import RankTable from '../../components/rank/RankTable';
 import api from '../../tools/api';
+import './rank.css';
 
 const Rank = () => {
   const history = useHistory();
@@ -33,7 +35,6 @@ const Rank = () => {
         size: size
       })
       .then(res => {
-        console.log(res);
         if(res.status === 200) {
           setDimmer(false);
           setRanks(res.data.list);
@@ -41,15 +42,27 @@ const Rank = () => {
         }
       })
       .catch(error => {
-        console.log(error);
         setDimmer(false);
         history.push('/not-signin');
       })
   }, []);
+
+  const handlePageChange = (e, { activePage }) => {
+    setPage(activePage);
+  };
+
   return (
     <div className="rank">
       <h1>Rank</h1>
       <RankTable ranks={ranks} />
+      <div className="rank-pagination">
+        <Pagination
+          siblingRange={1}
+          activePage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
