@@ -154,3 +154,8 @@
 .problem-title:hover {
   cursor: pointer;
 }
+
+/* Count Down */
+.count-down {
+  margin-top: 20px;
+}

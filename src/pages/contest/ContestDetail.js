@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Menu, Table, Label, Grid, Message } from 'semantic-ui-react';
+import { Menu, Table, Label, Grid, Message, Pagination } from 'semantic-ui-react';
 import { UIContext } from '../../contexts/UIContext';
 import ProblemTable from '../../components/home/ProblemTable';
 import ProblemDescription from '../../components/problem/ProblemDescription';
@@ -8,6 +8,7 @@ import ProblemContent from '../../components/problem/ProblemContent';
 import CodeForm from '../../components/problem/CodeForm';
 import ResultTable from '../../components/problem/ResultTable';
 import SubmissionTable from '../../components/submission/SubmissionTable';
+import CountDown from '../../components/contest/CountDown';
 import api from '../../tools/api';
 import './contest.css';
 
@@ -34,6 +35,10 @@ const ContestDetail = (props) => {
   const [mySubmissions, setMySubmissions] = useState([]);
   const [allSubmissions, setAllSubmissions] = useState([]);
   const [rank, setRank] = useState([]);
+
+  const [submissionPage, setSubmissionPage] = useState(0);
+  const [submissionTotalPages, setSubmissionTotalPages] = useState(0);
+  const [size, setSize] = useState(20);
 
   const [dimmer, setDimmer] = useState(false);
   const [inverted, setInverted] = useState(true);
@@ -84,7 +89,7 @@ const ContestDetail = (props) => {
         }
       })
     return () => unmounted = true;
-  }, [props, history]);
+  }, [props, history, activeItem]);
 
   useEffect(() => {
     let unmounted = false;
@@ -107,7 +112,7 @@ const ContestDetail = (props) => {
         }
       })
     return () => unmounted = true;
-  }, [props]);
+  }, [props, activeItem]);
 
   useEffect(() => {
     let data = {
@@ -126,7 +131,15 @@ const ContestDetail = (props) => {
   }, [props, isChose, choseProblemId]);
 
   useEffect(() => {
+    const countTotalPages = (total) => {
+      if(total % size === 0) {
+        setSubmissionTotalPages(total / size);
+      } else {
+        setSubmissionTotalPages(Math.floor(total / size) + 1);
+      }
+    };
     let unmounted = false;
+    setDimmer(true);
     api
       .getContestSubmissions({
         contestId: props.match.params.id,
@@ -135,12 +148,14 @@ const ContestDetail = (props) => {
       })
       .then(res => {
         if(!unmounted && res.status === 200) {
-          console.log(res);
+          setDimmer(false);
+          setAllSubmissions(res.data.list);
+          countTotalPages(res.data.total);
         }
       })
 
     return () => unmounted = true;
-  }, [props]);
+  }, [props, activeItem, size]);
 
   const transTypeToText = (type) => {
     switch(type) {
@@ -218,6 +233,10 @@ const ContestDetail = (props) => {
       })
   };
 
+  const handleSubmissionPageChange = (e, { activePage }) => {
+    setSubmissionPage(activePage);
+  };
+
   return (
     <div className="contest-detail">
       <h1>{ contest.name }</h1>
@@ -227,6 +246,7 @@ const ContestDetail = (props) => {
           active={activeItem === '考试信息'}
           onClick={() => {
             setActiveItem('考试信息');
+            setChoseProblemId('');
             setIsChose(false);
             setError(initError);
             setResult(null);
@@ -237,6 +257,7 @@ const ContestDetail = (props) => {
           active={activeItem === '排名情况'}
           onClick={() => {
             setActiveItem('排名情况');
+            setChoseProblemId('');
             setIsChose(false);
             setError(initError);
             setResult(null);
@@ -247,6 +268,7 @@ const ContestDetail = (props) => {
           active={activeItem === '所有提交'}
           onClick={() => {
             setActiveItem('所有提交');
+            setChoseProblemId('');
             setIsChose(false);
             setError(initError);
             setResult(null);
@@ -331,7 +353,7 @@ const ContestDetail = (props) => {
               { choseProblemId && (
                 <ProblemDescription problem={choseProblem} />
               ) }
-              countdown
+              <CountDown startTime={contest.startDate} endTime={contest.endDate} />
             </Grid.Column>
           </Grid.Row>
           { choseProblemId && (
@@ -358,12 +380,22 @@ const ContestDetail = (props) => {
       ) }
 
       { activeItem === '所有提交' && (
-        <h1>所有提交</h1>
+        <div>
+          <SubmissionTable submissions={allSubmissions} />
+          <div className="contest-pagination">
+            <Pagination
+              siblingRange={1}
+              activePage={submissionPage}
+              totalPages={submissionTotalPages}
+              onPageChange={handleSubmissionPageChange}
+            />
+          </div>
+          <div onClick={() => setSize(20)}></div>
+        </div>
       ) }
 
       { activeItem === '我的提交' && (
         <div>
-          <h2>{ choseProblem.title }</h2>
           <SubmissionTable submissions={mySubmissions} />
         </div>
       ) }
