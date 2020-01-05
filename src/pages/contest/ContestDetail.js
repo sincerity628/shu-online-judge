@@ -36,7 +36,7 @@ const ContestDetail = (props) => {
   const [allSubmissions, setAllSubmissions] = useState([]);
   const [rank, setRank] = useState([]);
 
-  const [submissionPage, setSubmissionPage] = useState(0);
+  const [submissionPage, setSubmissionPage] = useState(1);
   const [submissionTotalPages, setSubmissionTotalPages] = useState(0);
   const [size, setSize] = useState(20);
 
@@ -143,8 +143,8 @@ const ContestDetail = (props) => {
     api
       .getContestSubmissions({
         contestId: props.match.params.id,
-        page: 0,
-        size: 20
+        page: submissionPage - 1,
+        size: size
       })
       .then(res => {
         if(!unmounted && res.status === 200) {
