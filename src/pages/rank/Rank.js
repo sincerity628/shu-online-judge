@@ -12,22 +12,10 @@ const initData = {
   datasets: [{
     label: 'Accept',
     data: [14, 13, 12, 10, 9, 8, 3],
-    backgroundColor: 'rgba(139, 228, 227, 0.63)',
-    borderColor: 'rgba(139, 228, 227, 1)',
-    borderWidth: 1,
-    hoverBoderWidth: 3
   }, {
     label: 'Submission',
     data: [20, 20, 20, 15, 18, 20],
-    backgroundColor: 'rgba(228, 78, 68, 0.63)',
-    borderColor: 'rgba(228, 78, 68, 1)',
-    borderWidth: 1,
-    hoverBoderWidth: 3
   }]
-};
-
-const options = {
-
 };
 
 const Rank = () => {
@@ -56,7 +44,6 @@ const Rank = () => {
     };
 
     const getRankData = (list) => {
-      console.log(list);
       let user = [];
       let accept = [];
       let total = [];
@@ -70,15 +57,15 @@ const Rank = () => {
         datasets: [{
           label: 'Accept',
           data: accept,
-          backgroundColor: 'rgba(139, 228, 227, 0.63)',
-          borderColor: 'rgba(139, 228, 227, 1)',
+          backgroundColor: 'rgba(255, 204, 0, 0.7)',
+          borderColor: 'rgba(255, 204, 0, 1)',
           borderWidth: 1,
           hoverBoderWidth: 3
         }, {
           label: 'Total',
           data: total,
-          backgroundColor: 'rgba(228, 78, 68, 0.63)',
-          borderColor: 'rgba(228, 78, 68, 1)',
+          backgroundColor: 'rgba(50, 130, 184, 0.7)',
+          borderColor: 'rgba(50, 130, 184, 1)',
           borderWidth: 1,
           hoverBoderWidth: 3
         }]
@@ -111,7 +98,7 @@ const Rank = () => {
   return (
     <div className="rank">
       <h1>Rank</h1>
-      <BarChart data={data} options={options} />
+      <BarChart data={data} />
       <RankTable ranks={ranks} />
       <div className="rank-pagination">
         <Pagination

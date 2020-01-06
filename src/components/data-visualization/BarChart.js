@@ -6,8 +6,7 @@ const BarChart = ({ data, options }) => {
     <div className="bar-chart">
       <Bar
         data={data}
-        options={options}
-        height={150}
+        height={100}
       />
     </div>
   );
