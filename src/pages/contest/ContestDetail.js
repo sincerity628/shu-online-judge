@@ -170,7 +170,7 @@ const ContestDetail = (props) => {
       })
 
     return () => unmounted = true;
-  }, [props, activeItem, size]);
+  }, [props, activeItem, size, submissionPage]);
 
   const transTypeToText = (type) => {
     switch(type) {

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Table, Icon } from 'semantic-ui-react';
 
 const GroupTable = ({ groups }) => {
-  console.log(groups);
   return (
     <div className="group-table">
       <Table celled>

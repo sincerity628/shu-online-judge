@@ -108,6 +108,7 @@ const Rank = () => {
           onPageChange={handlePageChange}
         />
       </div>
+      <div onClick={() => setSize(size)}></div>
     </div>
   );
 }
