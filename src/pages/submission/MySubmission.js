@@ -9,13 +9,11 @@ import "./submission.css";
 
 const initData = {
   labels: ["已完成", "剩余题目"],
-  datasets: [
-    {
+  datasets: [{
       label: "题目数量",
       data: [5, 10],
       backgroundColor: ["#12cad6", "#fa163f"]
-    }
-  ]
+    }]
 };
 const options = {
   legend: {
@@ -62,13 +60,11 @@ const MySubmission = () => {
           dispatch({ type: 'UPDATE', userResult });
           setData({
             labels: ["通过", "未通过"],
-            datasets: [
-              {
+            datasets: [{
                 label: "题目数量",
                 data: [done, userResult.submitCount - done],
                 backgroundColor: ["#12cad6", "#fa4b4b"]
-              }
-            ]
+              }]
           });
         }
       });
