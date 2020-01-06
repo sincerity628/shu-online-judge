@@ -131,6 +131,21 @@ const ContestDetail = (props) => {
   }, [props, isChose, choseProblemId]);
 
   useEffect(() => {
+    let unmounted = false;
+    setDimmer(true);
+    api
+      .getContestRank(props.match.params.id)
+      .then(res => {
+        if(!unmounted && res.status === 200) {
+          console.log(res);
+        }
+      })
+
+    return () => unmounted = true;
+
+  }, [props, activeItem]);
+
+  useEffect(() => {
     const countTotalPages = (total) => {
       if(total % size === 0) {
         setSubmissionTotalPages(total / size);
@@ -381,7 +396,7 @@ const ContestDetail = (props) => {
 
       { activeItem === '所有提交' && (
         <div>
-          <SubmissionTable submissions={allSubmissions} />
+          <SubmissionTable submissions={allSubmissions} contest={true} />
           <div className="contest-pagination">
             <Pagination
               siblingRange={1}

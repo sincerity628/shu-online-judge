@@ -58,7 +58,7 @@ const Status = () => {
   return (
     <div className="status">
       <h1>Status</h1>
-      <SubmissionTable submissions={submissions} />
+      <SubmissionTable submissions={submissions} contest={false} />
       <div className="status-pagination">
         <Pagination
           siblingRange={1}

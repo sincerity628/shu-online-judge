@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react';
 import ResultCell from '../public/ResultCell';
 import '../components.css';
 
-const SubmissionTable = ({ submissions }) => {
+const SubmissionTable = ({ submissions, contest }) => {
   const [userId, setUserId] = useState('');
 
   useEffect(() => {
@@ -48,11 +48,15 @@ const SubmissionTable = ({ submissions }) => {
                     { submission.authorName }
                   </Link>
                 </Table.Cell>
-                <Table.Cell>
-                  <Link to={`/problem/${submission.problemId}`}>
-                    { submission.problemTitle }
-                  </Link>
-                </Table.Cell>
+                { typeof(contest) === 'undefined'? (
+                  <Table.Cell>{ submission.problemTitle }</Table.Cell>
+                ) : (
+                  <Table.Cell>
+                    <Link to={`/problem/${submission.problemId}`}>
+                      { submission.problemTitle }
+                    </Link>
+                  </Table.Cell>
+                ) }
                 <Table.Cell>{ submission.language }</Table.Cell>
                 <ResultCell result={submission.result} />
                 <Table.Cell>

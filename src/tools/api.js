@@ -46,5 +46,8 @@ export default {
   joinContest: (data) => request.post(`/contests/${data.id}/join?password=${data.password}`),
   // rank
   getRank: (data) => request.get('/users/ranking', { params: data }),
+  getContestRank: (id) => request.get(`/contests/${id}/ranking`),
+  // group
+  getGroups: () => request.get('/groups'),
 
 }
